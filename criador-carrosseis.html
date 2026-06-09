@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criador de Carrosseis | Marcus Santos</title>
+
+<!-- PWA: app instalavel na tela do celular -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1A1208">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Carrosseis">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+  :root {
+    --cor-fundo:#1A1208; --cor-primaria:#C9A84C; --cor-acento:#E8C97A;
+    --cor-texto:#F5EDD8; --cor-texto-sub:#A89880; --cor-card:#221A0C; --cor-borda:#3D2E14;
+    --fonte-titulo:'Playfair Display', serif; --fonte-corpo:'DM Sans', sans-serif;
+    --escala-titulo:1; --escala-corpo:1; --desloc-v:0px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#0c0c0c;font-family:var(--fonte-corpo);display:flex;flex-direction:column;
+    align-items:center;min-height:100vh;padding:28px 16px 48px;gap:18px;}
+
+  .topo{text-align:center;}
+  .topo .marca{color:#888;font-size:11px;letter-spacing:4px;text-transform:uppercase;}
+  .topo .sub{color:#555;font-size:11px;margin-top:4px;}
+
+  /* ===== SELETOR DE PILARES ===== */
+  .pilares{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;max-width:560px;}
+  .pilar-btn{flex:1;min-width:150px;background:#161616;border:1px solid #2a2a2a;border-radius:14px;
+    padding:16px 14px;cursor:pointer;transition:all .25s;text-align:center;}
+  .pilar-btn:hover{border-color:#555;transform:translateY(-2px);}
+  .pilar-btn.ativo{border-color:var(--cor-primaria);background:#1c1710;}
+  .pilar-btn .pic{font-size:24px;display:block;margin-bottom:8px;}
+  .pilar-btn .nom{font-family:var(--fonte-titulo);font-size:17px;color:#eee;font-weight:700;}
+  .pilar-btn .des{font-size:10px;color:#777;margin-top:4px;letter-spacing:.5px;}
+  .pilar-btn.ativo .nom{color:var(--cor-acento);}
+
+  /* ===== BARRA DE CONTROLE ===== */
+  .controle{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;
+    width:100%;max-width:560px;background:#141414;border:1px solid #242424;border-radius:12px;padding:12px 16px;}
+  .controle .rotulo{font-size:12px;color:#999;letter-spacing:1px;}
+  .controle .rotulo b{color:var(--cor-acento);font-weight:600;}
+  .btn-gerar{background:var(--cor-primaria);color:#1a1208;border:none;border-radius:8px;
+    padding:9px 18px;font-family:var(--fonte-corpo);font-weight:600;font-size:12px;letter-spacing:.5px;
+    cursor:pointer;transition:all .2s;}
+  .btn-gerar:hover{filter:brightness(1.12);transform:translateY(-1px);}
+
+  .dica-edicao{color:var(--cor-primaria);font-size:11px;letter-spacing:1px;
+    background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);
+    padding:7px 16px;border-radius:20px;text-align:center;}
+
+  /* ===== AJUSTES DE TEXTO ===== */
+  .ajustes{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center;
+    width:100%;max-width:560px;background:#141414;border:1px solid #242424;border-radius:12px;padding:12px 16px;}
+  .aj-grupo{display:flex;align-items:center;gap:6px;}
+  .aj-label{font-size:11px;color:#999;letter-spacing:1px;margin-right:2px;}
+  .aj-btn{width:34px;height:30px;background:#1d1d1d;border:1px solid #333;border-radius:7px;
+    color:var(--cor-acento);font-family:var(--fonte-corpo);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;}
+  .aj-btn:hover{border-color:var(--cor-primaria);background:#262019;}
+  .aj-reset{background:none;border:1px solid #333;border-radius:7px;color:#888;font-size:11px;
+    padding:6px 12px;cursor:pointer;transition:all .15s;letter-spacing:.5px;}
+  .aj-reset:hover{border-color:#666;color:#ccc;}
+
+  /* ===== PALETA ===== */
+  .paleta-wrapper{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:560px;}
+  .paleta-label{color:#666;font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+  .paleta-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .paleta-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;
+    border:1px solid #333;background:#1a1a1a;cursor:pointer;transition:all .2s;font-size:11px;color:#aaa;}
+  .paleta-btn:hover{border-color:#666;color:#fff;}
+  .paleta-btn.ativo{border-color:#fff;color:#fff;background:#2a2a2a;}
+  .paleta-preview{width:12px;height:12px;border-radius:50%;}
+  .custom-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
+  .custom-row label{color:#666;font-size:11px;letter-spacing:1px;}
+  input[type="color"]{width:28px;height:28px;border:none;border-radius:50%;cursor:pointer;background:none;padding:0;}
+
+  /* ===== CARROSSEL ===== */
+  .carrossel-wrapper{position:relative;width:100%;max-width:560px;}
+  .carrossel-viewport{width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:16px;position:relative;
+    background:var(--cor-fundo);box-shadow:0 24px 80px rgba(0,0,0,.7);}
+  .slides-track{display:flex;width:100%;height:100%;transition:transform .45s cubic-bezier(.77,0,.175,1);}
+
+  .slide{flex:0 0 100%;width:100%;height:100%;background:var(--cor-fundo);display:flex;
+    flex-direction:column;justify-content:center;padding:56px 44px;position:relative;overflow:hidden;}
+  .slide::before{content:'';position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;z-index:1;opacity:.6;}
+
+  .slide-deco{position:absolute;top:-60px;right:-60px;width:260px;height:260px;
+    border:1px solid var(--cor-borda);border-radius:50%;opacity:.4;z-index:2;}
+  .slide-deco::after{content:'';position:absolute;top:30px;left:30px;right:30px;bottom:30px;
+    border:1px solid var(--cor-primaria);border-radius:50%;opacity:.3;}
+  .slide-linha{position:absolute;left:0;top:20%;bottom:20%;width:3px;
+    background:linear-gradient(to bottom,transparent,var(--cor-primaria),transparent);z-index:2;}
+  .slide-numero{position:absolute;top:36px;right:44px;font-family:var(--fonte-titulo);font-size:72px;
+    font-weight:900;color:var(--cor-borda);line-height:1;z-index:2;opacity:.5;}
+  .slide-tag{position:absolute;top:36px;left:44px;font-size:9px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--cor-primaria);z-index:3;border:1px dashed var(--cor-borda);padding:4px 10px;border-radius:20px;}
+  .slide-conteudo{position:relative;z-index:3;width:100%;
+    transform:translateY(var(--desloc-v,0px));transition:transform .2s;}
+  .slide-icone{font-size:32px;margin-bottom:12px;position:relative;z-index:3;}
+  .slide-headline{font-family:var(--fonte-titulo);font-size:calc(clamp(26px,5vw,36px) * var(--escala-titulo,1));font-weight:700;
+    color:var(--cor-texto);line-height:1.2;position:relative;z-index:3;margin-bottom:14px;}
+  .slide-headline span{color:var(--cor-acento);}
+  .slide-corpo{font-family:var(--fonte-corpo);font-size:calc(clamp(12px,2.2vw,14px) * var(--escala-corpo,1));font-weight:300;
+    color:var(--cor-texto-sub);line-height:1.6;position:relative;z-index:3;max-width:88%;}
+  .slide-divisor{width:40px;height:2px;background:var(--cor-primaria);margin:16px 0;position:relative;z-index:3;}
+
+  .slide-handle{position:absolute;bottom:30px;right:44px;font-size:10px;letter-spacing:2px;
+    color:var(--cor-texto-sub);z-index:3;font-weight:400;opacity:.45;}
+
+  [contenteditable="true"]{cursor:text;transition:outline .15s;border-radius:4px;}
+  [contenteditable="true"]:hover{outline:1px dashed rgba(201,168,76,.4);outline-offset:4px;}
+  [contenteditable="true"]:focus{outline:1px dashed var(--cor-primaria);outline-offset:4px;}
+
+  .slide-1{justify-content:center;align-items:flex-start;}
+  .slide-1 .slide-headline{font-size:calc(clamp(30px,6vw,44px) * var(--escala-titulo,1));font-weight:900;margin-bottom:18px;}
+  .slide-1 .bg-glow{position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;
+    background:radial-gradient(circle,rgba(201,168,76,.12) 0%,transparent 70%);z-index:2;}
+
+  .slide-6{justify-content:center;align-items:center;text-align:center;}
+  .slide-6 .slide-conteudo{display:flex;flex-direction:column;align-items:center;}
+  .slide-6 .slide-corpo{max-width:100%;text-align:center;}
+  .slide-6 .slide-divisor{margin:16px auto;}
+  .slide-6 .slide-linha{display:none;}
+  .slide-6 .cta-box{margin-top:20px;padding:14px 28px;background:var(--cor-primaria);color:var(--cor-fundo);
+    border-radius:8px;font-weight:500;font-size:13px;letter-spacing:1px;position:relative;z-index:3;}
+
+  .btn-download{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+    background:rgba(0,0,0,.75);color:var(--cor-primaria);border:1px solid var(--cor-primaria);
+    border-radius:20px;padding:6px 18px;font-size:11px;letter-spacing:1px;cursor:pointer;z-index:10;
+    transition:all .2s;white-space:nowrap;display:none;}
+  .btn-download:hover{background:var(--cor-primaria);color:#000;}
+
+  .nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;
+    background:rgba(0,0,0,.6);border:1px solid #333;color:#fff;font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:20;}
+  .nav-btn:hover{background:rgba(0,0,0,.9);border-color:#888;}
+  .nav-btn.prev{left:-20px;} .nav-btn.next{right:-20px;}
+
+  .dots{display:flex;gap:6px;justify-content:center;margin-top:16px;}
+  .dot{width:6px;height:6px;border-radius:3px;background:#333;cursor:pointer;transition:all .3s;}
+  .dot.ativo{width:22px;background:var(--cor-primaria);}
+  .contador{color:#555;font-size:11px;letter-spacing:2px;text-align:center;margin-top:8px;}
+
+  .btn-baixar-todos{background:#161616;color:var(--cor-acento);border:1px solid var(--cor-borda);
+    border-radius:8px;padding:10px 20px;font-size:12px;letter-spacing:.5px;cursor:pointer;transition:all .2s;}
+  .btn-baixar-todos:hover{border-color:var(--cor-primaria);}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="marca">Criador de Carrosseis</div>
+  <div class="sub">Corpo Ativo • Mente Clara • Essencia Desperta</div>
+</div>
+
+<!-- PILARES -->
+<div class="pilares" id="pilares">
+  <button class="pilar-btn" data-pilar="corpo" onclick="selecionarPilar('corpo', this)">
+    <span class="pic">🏃</span><span class="nom">Corpo Ativo</span><span class="des">Saude fisica e movimento</span>
+  </button>
+  <button class="pilar-btn" data-pilar="mente" onclick="selecionarPilar('mente', this)">
+    <span class="pic">🧠</span><span class="nom">Mente Clara</span><span class="des">Foco e equilibrio mental</span>
+  </button>
+  <button class="pilar-btn" data-pilar="essencia" onclick="selecionarPilar('essencia', this)">
+    <span class="pic">🕊️</span><span class="nom">Essencia Desperta</span><span class="des">Espiritualidade e proposito</span>
+  </button>
+</div>
+
+<!-- CONTROLE -->
+<div class="controle">
+  <span class="rotulo">Pilar: <b id="rotulo-pilar">Corpo Ativo</b> &nbsp;|&nbsp; <span id="rotulo-variacao">Variacao 1 de 3</span></span>
+  <button class="btn-gerar" onclick="gerarNovo()">🔄 Gerar outro carrossel deste pilar</button>
+</div>
+
+<div class="dica-edicao">✎ Clique para editar titulo, corpo e icone &nbsp;•&nbsp; as etiquetas tracejadas sao guias e NAO aparecem no download</div>
+
+<!-- AJUSTES DE TEXTO -->
+<div class="ajustes">
+  <div class="aj-grupo">
+    <span class="aj-label">Titulo</span>
+    <button class="aj-btn" onclick="ajustar('titulo',-0.08)">A-</button>
+    <button class="aj-btn" onclick="ajustar('titulo',0.08)">A+</button>
+  </div>
+  <div class="aj-grupo">
+    <span class="aj-label">Corpo</span>
+    <button class="aj-btn" onclick="ajustar('corpo',-0.08)">a-</button>
+    <button class="aj-btn" onclick="ajustar('corpo',0.08)">a+</button>
+  </div>
+  <div class="aj-grupo">
+    <span class="aj-label">Posicao</span>
+    <button class="aj-btn" onclick="ajustar('pos',-12)">&#8593;</button>
+    <button class="aj-btn" onclick="ajustar('pos',12)">&#8595;</button>
+  </div>
+  <button class="aj-reset" onclick="resetarAjustes()">Resetar</button>
+</div>
+
+<!-- PALETA -->
+<div class="paleta-wrapper">
+  <span class="paleta-label">Paleta de Cores</span>
+  <div class="paleta-grid">
+    <button class="paleta-btn" data-paleta="terroso" onclick="aplicarPaleta('terroso', this)"><span class="paleta-preview" style="background:#C9A84C"></span> Tons Terrosos</button>
+    <button class="paleta-btn" data-paleta="preto-dourado" onclick="aplicarPaleta('preto-dourado', this)"><span class="paleta-preview" style="background:#FFD700"></span> Preto e Dourado</button>
+    <button class="paleta-btn" data-paleta="azul" onclick="aplicarPaleta('azul', this)"><span class="paleta-preview" style="background:#3B82F6"></span> Azul Corporativo</button>
+    <button class="paleta-btn" data-paleta="minimalista" onclick="aplicarPaleta('minimalista', this)"><span class="paleta-preview" style="background:#E5E5E5"></span> Branco Minimalista</button>
+    <button class="paleta-btn" data-paleta="roxo" onclick="aplicarPaleta('roxo', this)"><span class="paleta-preview" style="background:#8B5CF6"></span> Roxo Editorial</button>
+  </div>
+  <div class="custom-row">
+    <label>Primaria:</label><input type="color" id="ccP" value="#C9A84C" oninput="aplicarCorCustom('primaria',this.value)">
+    <label>Acento:</label><input type="color" id="ccA" value="#E8C97A" oninput="aplicarCorCustom('acento',this.value)">
+    <label>Fundo:</label><input type="color" id="ccF" value="#1A1208" oninput="aplicarCorCustom('fundo',this.value)">
+  </div>
+</div>
+
+<!-- CARROSSEL -->
+<div class="carrossel-wrapper">
+  <button class="nav-btn prev" onclick="navegar(-1)">&#8592;</button>
+  <button class="nav-btn next" onclick="navegar(1)">&#8594;</button>
+  <div class="carrossel-viewport" id="viewport">
+    <div class="slides-track" id="track"></div>
+  </div>
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="contador" id="contador">1 / 6</div>
+<button class="btn-baixar-todos" onclick="baixarTodos()">⬇ Baixar todos os slides</button>
+
+<script>
+/* =========================================================
+   BANCO DE CONTEUDO: 3 pilares x 3 variacoes x 6 slides
+   Cada slide: {tag, ic(icone), h(titulo), a(acento), c(corpo[])}
+========================================================= */
+const conteudos = {
+  corpo: {
+    nome: "Corpo Ativo", paleta: "terroso",
+    variantes: [
+      [
+        {tag:"Gancho", ic:"🔥", h:"Parou. Voltou.", a:"Agora vai de verdade.", c:["Se voce ficou meses longe da academia e travou na hora de voltar, esse carrossel e pra voce.","Sem culpa. Sem pressa. Com estrategia."]},
+        {tag:"Erro comum", ic:"⚠️", h:"Nao comece onde", a:"voce parou.", c:["O maior erro de quem volta e querer recuperar o tempo perdido na primeira semana.","Seu corpo desacostumou. Reduza 40% da carga nos primeiros 14 dias.","Progresso comeca na humildade de recomecar."]},
+        {tag:"Estrategia", ic:"🧠", h:"3 treinos por semana", a:"valem mais que 5.", c:["Frequencia alta demais mata a motivacao no inicio.","Comprometa-se com 3 dias fixos, sem negociacao, por 30 dias.","Consistencia de 80% supera perfeicao de 30%."]},
+        {tag:"Recuperacao", ic:"🌙", h:"O treino constroi.", a:"O descanso transforma.", c:["Quem volta de um hiato inflama mais que o normal.","Sono e descanso nao sao opcionais, sao parte do protocolo.","Ignore isso e voce para de novo em 3 semanas."]},
+        {tag:"Virada", ic:"✨", h:"O corpo esquece.", a:"A mente nao deixa.", c:["A memoria muscular e real: voce recupera em semanas o que levou meses.","O que sabota nao e o fisico, e a historia de \"ja era\" que voce conta.","Mude o roteiro. O recomeco e o movimento mais poderoso."]},
+        {tag:"CTA", ic:"🙌", h:"Pronto pra", a:"comecar de verdade?", c:["Salva pra nao esquecer.","Marca quem precisa ler isso.","E me segue pra mais sobre saude fisica, mental e espiritual."]}
+      ],
+      [
+        {tag:"Gancho", ic:"🔥", h:"Voce nao precisa", a:"de motivacao.", c:["Esperar a vontade chegar e o motivo de voce nunca comecar.","A verdade sobre treinar mesmo nos dias dificeis."]},
+        {tag:"Mito", ic:"⚠️", h:"Motivacao e", a:"consequencia.", c:["Ninguem treina por anos movido a empolgacao.","A motivacao aparece depois do movimento, nao antes.","Quem espera sentir vontade, espera pra sempre."]},
+        {tag:"Sistema", ic:"🧠", h:"Regras vencem", a:"forca de vontade.", c:["Decida o horario do treino uma vez e pare de decidir todo dia.","Cada decisao repetida gasta energia mental que voce nao tem.","Automatize e a disciplina cuida do resto."]},
+        {tag:"Pratica", ic:"💪", h:"A regra dos", a:"5 minutos.", c:["Nos dias sem vontade, prometa so 5 minutos.","Quase sempre voce continua. E no dia que para, manteve o habito vivo.","Aparecer vale mais que performar."]},
+        {tag:"Virada", ic:"✨", h:"Disciplina e", a:"autocuidado.", c:["Treinar no dia ruim nao e punicao, e respeito por quem voce quer ser.","Voce nao esta se forcando, esta se escolhendo.","E ai que a identidade muda."]},
+        {tag:"CTA", ic:"🙌", h:"Bora construir", a:"consistencia?", c:["Salva pra lembrar nos dias dificeis.","Marca quem vive esperando motivacao.","Me segue pra mais sobre disciplina e saude."]}
+      ],
+      [
+        {tag:"Gancho", ic:"🔥", h:"Sentado o dia", a:"todo?", c:["O corpo humano nao foi feito pra cadeira de 8 horas.","Como voltar a se mover sem virar atleta da noite pro dia."]},
+        {tag:"Alerta", ic:"⚠️", h:"Sedentarismo e o", a:"novo cigarro.", c:["Ficar parado o dia inteiro afeta coracao, postura e humor.","Nao e falta de academia, e falta de movimento ao longo do dia.","Pequenas pausas mudam o jogo."]},
+        {tag:"Estrategia", ic:"🚶", h:"Movimento espalhado", a:"vence treino isolado.", c:["1 hora de academia nao anula 8 horas sentado.","Levante a cada 50 minutos, caminhe, alongue.","Seu corpo quer ser usado o dia todo."]},
+        {tag:"Pratica", ic:"🧠", h:"Comece ridiculamente", a:"pequeno.", c:["10 minutos de caminhada por dia ja mudam sua bioquimica.","Nao mire no perfeito, mire no possivel e repetivel.","O habito primeiro, a intensidade depois."]},
+        {tag:"Virada", ic:"✨", h:"Seu corpo e", a:"a unica casa.", c:["Voce vai morar nele a vida inteira, sem mudanca de endereco.","Cuidar do fisico nao e vaidade, e manutencao do que te carrega.","Movimento e gratidao em acao."]},
+        {tag:"CTA", ic:"🙌", h:"Vamos sair", a:"do sofa?", c:["Salva como lembrete diario.","Marca aquele amigo parado.","Me segue pra mais sobre movimento e vitalidade."]}
+      ]
+    ]
+  },
+  mente: {
+    nome: "Mente Clara", paleta: "azul",
+    variantes: [
+      [
+        {tag:"Gancho", ic:"🧠", h:"Mente que nao", a:"desliga?", c:["Pensamento atras de pensamento, mesmo deitado tentando dormir.","Como desacelerar uma cabeca que nao para."]},
+        {tag:"Verdade", ic:"🌀", h:"Ansiedade nao e", a:"o inimigo.", c:["Ela e um alarme tentando te proteger de algo que nem existe.","Brigar com ela so aumenta o volume.","O caminho e entender, nao eliminar."]},
+        {tag:"Pratica", ic:"🌬️", h:"Respire mais", a:"devagar que ela.", c:["Quando a mente acelera, o corpo segue. Inverta: desacelere o corpo.","4 segundos inspirando, 6 soltando, por 2 minutos.","O sistema nervoso obedece a respiracao."]},
+        {tag:"Estrategia", ic:"📝", h:"Tire da cabeca,", a:"ponha no papel.", c:["Pensamento solto na mente parece gigante e eterno.","Escrito, ele vira algo do tamanho real, que voce resolve ou solta.","A folha aguenta o que a cabeca nao aguenta."]},
+        {tag:"Virada", ic:"✨", h:"Voce nao e", a:"seus pensamentos.", c:["Voce e quem observa eles passarem.","Essa distancia e onde mora a paz que voce procura.","Observar ja e comecar a se libertar."]},
+        {tag:"CTA", ic:"🙌", h:"Pronto pra", a:"respirar melhor?", c:["Salva pra usar na proxima crise.","Marca quem precisa ler isso hoje.","Me segue pra mais sobre mente e equilibrio."]}
+      ],
+      [
+        {tag:"Gancho", ic:"🧠", h:"Nao consegue", a:"focar em nada?", c:["Cinco abas, tres notificacoes, zero entregas.","Como recuperar o foco num mundo desenhado pra te distrair."]},
+        {tag:"Causa", ic:"📱", h:"Seu foco foi", a:"sequestrado.", c:["Cada app e projetado por engenheiros pra roubar sua atencao.","Nao e fraqueza sua, e design contra voce.","Reconhecer isso ja e meio caminho."]},
+        {tag:"Estrategia", ic:"🎯", h:"Uma coisa", a:"por vez.", c:["Multitarefa e mito: voce so troca de tarefa rapido e perde nas duas.","Escolha uma, feche o resto, de 25 minutos inteiros a ela.","Profundidade vence dispersao."]},
+        {tag:"Pratica", ic:"🌱", h:"Desintoxique a", a:"dopamina.", c:["Tedio e onde nasce a criatividade e o foco profundo.","Passe alguns minutos por dia sem tela, sem estimulo.","Sua mente reaprende a se concentrar."]},
+        {tag:"Virada", ic:"✨", h:"Atencao e a", a:"sua vida.", c:["Onde vai sua atencao, vai sua existencia, momento a momento.","Distracao cronica e uma vida vivida pela metade.","Proteger o foco e proteger quem voce e."]},
+        {tag:"CTA", ic:"🙌", h:"Bora recuperar", a:"o foco?", c:["Salva pra aplicar amanha.","Marca quem vive distraido.","Me segue pra mais sobre clareza mental."]}
+      ],
+      [
+        {tag:"Gancho", ic:"🧠", h:"Acorda ja", a:"cansado?", c:["A forma como voce comeca o dia decide as proximas 16 horas.","Como criar manhas que geram clareza, nao correria."]},
+        {tag:"Erro", ic:"⏰", h:"Celular nao e", a:"despertador.", c:["Pegar o telefone ao acordar e entregar sua mente ao caos alheio.","Antes de voce existir, ja esta reagindo.","Os primeiros minutos sao sagrados."]},
+        {tag:"Estrategia", ic:"🌅", h:"Conquiste a", a:"primeira hora.", c:["Luz natural, agua, movimento e silencio antes de qualquer tela.","Voce define o tom do dia em vez de receber o tom dos outros.","Manha intencional, dia intencional."]},
+        {tag:"Pratica", ic:"📝", h:"Escreva 3", a:"linhas.", c:["Antes de comecar, anote o que importa hoje, nao a lista infinita.","Clareza vem de escolher, nao de fazer tudo.","Tres prioridades vencem trinta tarefas."]},
+        {tag:"Virada", ic:"✨", h:"Disciplina de manha", a:"e liberdade a tarde.", c:["Quem domina o inicio para de ser arrastado pelo resto.","A rotina nao te prende, ela te devolve o controle.","Ordem por fora gera calma por dentro."]},
+        {tag:"CTA", ic:"🙌", h:"Vamos desenhar", a:"sua manha?", c:["Salva como guia.","Marca quem acorda no caos.","Me segue pra mais sobre clareza e rotina."]}
+      ]
+    ]
+  },
+  essencia: {
+    nome: "Essencia Desperta", paleta: "roxo",
+    variantes: [
+      [
+        {tag:"Gancho", ic:"🕊️", h:"Voce se conhece", a:"de verdade?", c:["Vivemos pra fora o tempo todo e esquecemos de olhar pra dentro.","O reencontro com quem voce realmente e."]},
+        {tag:"Verdade", ic:"🌑", h:"O silencio", a:"assusta.", c:["A gente enche o dia de ruido pra nao ouvir o que sente.","Mas e no silencio que as respostas aparecem.","Coragem e ficar sozinho consigo."]},
+        {tag:"Pratica", ic:"🧘", h:"Sente. Respire.", a:"Observe.", c:["Nao precisa esvaziar a mente, so assistir o que vem sem julgar.","Alguns minutos por dia ja reorganizam o interior.","Presenca e o inicio de tudo."]},
+        {tag:"Reflexao", ic:"🌱", h:"Quem voce e", a:"sem os papeis?", c:["Tire o cargo, o titulo, a opiniao dos outros. O que sobra?","Essa essencia por baixo de tudo e o que importa cuidar.","Voce nao e o que faz, e quem e."]},
+        {tag:"Virada", ic:"✨", h:"Autoconhecimento", a:"e o caminho.", c:["Toda transformacao de fora comeca por uma virada de dentro.","Voce nao precisa virar outra pessoa, precisa se lembrar de quem e.","O encontro e com voce mesmo."]},
+        {tag:"CTA", ic:"🙌", h:"Pronto pra se", a:"reencontrar?", c:["Salva pra refletir depois.","Marca quem precisa parar e se ouvir.","Me segue pra mais sobre essencia e autoconhecimento."]}
+      ],
+      [
+        {tag:"Gancho", ic:"🕊️", h:"Sucesso sem", a:"sentido cansa.", c:["Da pra conquistar tudo e ainda sentir um vazio que nao passa.","A busca pelo que realmente move voce."]},
+        {tag:"Verdade", ic:"🌑", h:"Proposito nao", a:"se acha, se constroi.", c:["Ninguem acorda iluminado sabendo a missao da vida.","Ele nasce do que te toca, do que voce nao consegue ignorar.","Comece pelo que doi ou encanta."]},
+        {tag:"Reflexao", ic:"🧭", h:"O que voce faria", a:"de graca?", c:["A resposta esconde uma pista do seu chamado.","Onde o tempo voa e voce se esquece de si, ali tem sentido.","Preste atencao no que te acende."]},
+        {tag:"Pratica", ic:"🌱", h:"Sirva alguem", a:"hoje.", c:["Proposito quase sempre aponta pra fora de voce.","Quando o que voce faz ajuda outra pessoa, o vazio diminui.","Sentido mora na entrega, nao no acumulo."]},
+        {tag:"Virada", ic:"✨", h:"Voce foi feito", a:"pra mais.", c:["Nao pra so pagar contas e repetir os dias ate o fim.","Existe um motivo por tras de voce estar aqui agora.","Descobri-lo e a aventura de uma vida."]},
+        {tag:"CTA", ic:"🙌", h:"Vamos achar", a:"seu porque?", c:["Salva pra meditar nisso.","Marca quem busca sentido.","Me segue pra mais sobre proposito e essencia."]}
+      ],
+      [
+        {tag:"Gancho", ic:"🕊️", h:"Vivendo no", a:"automatico?", c:["A vida passa enquanto a gente pensa no proximo problema.","Como voltar pro presente, o unico lugar onde se vive."]},
+        {tag:"Verdade", ic:"🌑", h:"O agora e tudo", a:"que existe.", c:["O passado ja foi, o futuro nao chegou, so o presente e real.","Ansiedade vive no amanha, culpa vive no ontem.","Paz vive aqui."]},
+        {tag:"Pratica", ic:"🙏", h:"Agradeca", a:"tres coisas.", c:["Toda manha, nomeie tres coisas simples pelas quais e grato.","Gratidao treina o cerebro a ver o que ja esta bom.","O que voce agradece, se multiplica."]},
+        {tag:"Reflexao", ic:"🌱", h:"Faca uma coisa", a:"de cada vez.", c:["Comendo, coma. Andando, ande. Ouvindo, ouca de verdade.","Presenca plena transforma o ordinario em sagrado.","A vida inteira esta nos detalhes."]},
+        {tag:"Virada", ic:"✨", h:"Voce nao tem mais", a:"tempo. Tem agora.", c:["Esperar o momento perfeito e perder o momento que existe.","A plenitude nao esta num futuro, esta na sua atencao hoje.","Acordar e escolher estar presente."]},
+        {tag:"CTA", ic:"🙌", h:"Pronto pra", a:"estar presente?", c:["Salva como lembrete.","Marca quem vive no automatico.","Me segue pra mais sobre presenca e espiritualidade."]}
+      ]
+    ]
+  }
+};
+
+/* ===== ESTADO ===== */
+const state = { pilar:'corpo', variante:0, slideAtual:0, total:6 };
+
+const track = document.getElementById('track');
+const dotsContainer = document.getElementById('dots');
+const contador = document.getElementById('contador');
+
+/* ===== CONSTRUTOR DE SLIDE ===== */
+function buildSlide(s, i, total){
+  const isGancho = i === 0;
+  const isCta = i === total-1;
+  let classe = 'slide';
+  if (isGancho) classe += ' slide-1';
+  if (isCta) classe += ' slide-6';
+
+  const numero = (!isGancho && !isCta) ? `<div class="slide-numero">${String(i).padStart(2,'0')}</div>` : '';
+  const tagStyle = isCta ? ' style="left:50%;transform:translateX(-50%)"' : '';
+  const sep = (s.h && s.a && !isCta) ? '<br>' : ' ';
+  const accent = s.a ? `<span>${s.a}</span>` : '';
+  const ctaBox = isCta ? `<div class="cta-box">Seguir &rarr; @marcus.santosc</div>` : '';
+  const glow = isGancho ? '<div class="bg-glow"></div>' : '';
+  const linha = !isCta ? '<div class="slide-linha"></div>' : '';
+  const corpo = s.c.join('<br>');
+
+  return `<div class="${classe}" id="slide-${i}">
+    <div class="slide-deco"></div>${glow}${linha}
+    <div class="slide-tag"${tagStyle} title="Guia narrativo (nao aparece no download)">${s.tag}</div>${numero}
+    <div class="slide-conteudo">
+      <div class="slide-icone" contenteditable="true" spellcheck="false" title="Clique para editar ou apagar o icone">${s.ic}</div>
+      <h2 class="slide-headline" contenteditable="true" spellcheck="false">${s.h}${sep}${accent}</h2>
+      <div class="slide-divisor"></div>
+      <p class="slide-corpo" contenteditable="true" spellcheck="false">${corpo}</p>
+      ${ctaBox}
+    </div>
+    <div class="slide-handle">@marcus.santosc</div>
+    <button class="btn-download" onclick="baixarSlide(${i})">&#8595; Baixar slide ${String(i+1).padStart(2,'0')}</button>
+  </div>`;
+}
+
+/* ===== RENDER ===== */
+function render(){
+  const carrossel = conteudos[state.pilar].variantes[state.variante];
+  state.total = carrossel.length;
+  state.slideAtual = 0;
+  track.innerHTML = carrossel.map((s,i)=>buildSlide(s,i,carrossel.length)).join('');
+  construirDots(carrossel.length);
+  atualizarRotulos();
+  atualizarUI();
+}
+
+function construirDots(total){
+  dotsContainer.innerHTML = '';
+  for (let i=0;i<total;i++){
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i===0?' ativo':'');
+    dot.onclick = () => irPara(i);
+    dotsContainer.appendChild(dot);
+  }
+}
+
+function atualizarRotulos(){
+  document.getElementById('rotulo-pilar').textContent = conteudos[state.pilar].nome;
+  const total = conteudos[state.pilar].variantes.length;
+  document.getElementById('rotulo-variacao').textContent = `Variacao ${state.variante+1} de ${total}`;
+}
+
+function atualizarUI(){
+  track.style.transform = `translateX(-${state.slideAtual*100}%)`;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('ativo',i===state.slideAtual));
+  contador.textContent = `${state.slideAtual+1} / ${state.total}`;
+  document.querySelectorAll('.btn-download').forEach((btn,i)=>{btn.style.display = (i===state.slideAtual)?'block':'none';});
+}
+
+function navegar(dir){ state.slideAtual = (state.slideAtual+dir+state.total)%state.total; atualizarUI(); }
+function irPara(i){ state.slideAtual = i; atualizarUI(); }
+
+/* ===== AJUSTES DE TEXTO E POSICAO ===== */
+const ajuste = { titulo:1, corpo:1, pos:0 };
+function ajustar(tipo, delta){
+  if (tipo==='titulo'){ ajuste.titulo = Math.min(1.6, Math.max(0.7, ajuste.titulo+delta));
+    document.documentElement.style.setProperty('--escala-titulo', ajuste.titulo.toFixed(2)); }
+  if (tipo==='corpo'){ ajuste.corpo = Math.min(1.8, Math.max(0.7, ajuste.corpo+delta));
+    document.documentElement.style.setProperty('--escala-corpo', ajuste.corpo.toFixed(2)); }
+  if (tipo==='pos'){ ajuste.pos = Math.min(120, Math.max(-120, ajuste.pos+delta));
+    document.documentElement.style.setProperty('--desloc-v', ajuste.pos+'px'); }
+}
+function resetarAjustes(){
+  ajuste.titulo=1; ajuste.corpo=1; ajuste.pos=0;
+  document.documentElement.style.setProperty('--escala-titulo','1');
+  document.documentElement.style.setProperty('--escala-corpo','1');
+  document.documentElement.style.setProperty('--desloc-v','0px');
+}
+
+/* ===== PILARES E GERACAO ===== */
+function selecionarPilar(pilar, btn){
+  state.pilar = pilar;
+  state.variante = 0;
+  document.querySelectorAll('.pilar-btn').forEach(b=>b.classList.remove('ativo'));
+  if (btn) btn.classList.add('ativo');
+  // aplica paleta sugerida do pilar
+  const pal = conteudos[pilar].paleta;
+  aplicarPaleta(pal, document.querySelector(`.paleta-btn[data-paleta="${pal}"]`));
+  render();
+}
+
+function gerarNovo(){
+  const total = conteudos[state.pilar].variantes.length;
+  state.variante = (state.variante+1)%total;
+  render();
+}
+
+/* ===== SWIPE / TECLADO ===== */
+let touchStartX = 0;
+const viewport = document.getElementById('viewport');
+viewport.addEventListener('touchstart', e=>{touchStartX = e.changedTouches[0].screenX;}, {passive:true});
+viewport.addEventListener('touchend', e=>{
+  if (document.activeElement && document.activeElement.isContentEditable) return;
+  const diff = touchStartX - e.changedTouches[0].screenX;
+  if (Math.abs(diff)>40) navegar(diff>0?1:-1);
+}, {passive:true});
+document.addEventListener('keydown', e=>{
+  if (document.activeElement && document.activeElement.isContentEditable) return;
+  if (e.key==='ArrowRight') navegar(1);
+  if (e.key==='ArrowLeft') navegar(-1);
+});
+
+/* Colapsa o espaco do icone quando ele e apagado */
+track.addEventListener('input', e=>{
+  if (e.target.classList && e.target.classList.contains('slide-icone')){
+    const vazio = e.target.textContent.trim()==='';
+    e.target.style.marginBottom = vazio ? '0' : '';
+    e.target.style.minHeight = vazio ? '0' : '';
+  }
+});
+
+/* ===== PALETAS ===== */
+const paletas = {
+  'terroso':       {fundo:'#1A1208',primaria:'#C9A84C',acento:'#E8C97A',texto:'#F5EDD8',textoSub:'#A89880',card:'#221A0C',borda:'#3D2E14'},
+  'preto-dourado': {fundo:'#0A0A0A',primaria:'#FFD700',acento:'#FFF176',texto:'#FFFFFF',textoSub:'#AAAAAA',card:'#111111',borda:'#2A2A00'},
+  'azul':          {fundo:'#0A1628',primaria:'#3B82F6',acento:'#93C5FD',texto:'#E0EFFF',textoSub:'#7BA7D1',card:'#0F1F3D',borda:'#1E3A5F'},
+  'minimalista':   {fundo:'#F8F8F6',primaria:'#1A1A1A',acento:'#555555',texto:'#111111',textoSub:'#666666',card:'#EEEEEC',borda:'#DDDDDD'},
+  'roxo':          {fundo:'#0E0A1A',primaria:'#8B5CF6',acento:'#C4B5FD',texto:'#F3EEFF',textoSub:'#9B86C8',card:'#160F26',borda:'#2D1F55'}
+};
+function aplicarPaleta(nome, btn){
+  const p = paletas[nome]; if(!p) return;
+  aplicarVars(p);
+  document.querySelectorAll('.paleta-btn').forEach(b=>b.classList.remove('ativo'));
+  if (btn) btn.classList.add('ativo');
+  document.getElementById('ccP').value = p.primaria;
+  document.getElementById('ccA').value = p.acento;
+  document.getElementById('ccF').value = p.fundo;
+}
+function aplicarVars(p){
+  const r = document.documentElement;
+  r.style.setProperty('--cor-fundo',p.fundo);
+  r.style.setProperty('--cor-primaria',p.primaria);
+  r.style.setProperty('--cor-acento',p.acento);
+  r.style.setProperty('--cor-texto',p.texto);
+  r.style.setProperty('--cor-texto-sub',p.textoSub);
+  r.style.setProperty('--cor-card',p.card);
+  r.style.setProperty('--cor-borda',p.borda);
+}
+function aplicarCorCustom(tipo, valor){
+  document.querySelectorAll('.paleta-btn').forEach(b=>b.classList.remove('ativo'));
+  if (tipo==='primaria') document.documentElement.style.setProperty('--cor-primaria',valor);
+  if (tipo==='acento') document.documentElement.style.setProperty('--cor-acento',valor);
+  if (tipo==='fundo') document.documentElement.style.setProperty('--cor-fundo',valor);
+}
+
+/* ===== EXPORTACAO PNG ===== */
+function baixarSlide(index){
+  return new Promise((resolve)=>{
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    const slideEl = document.getElementById('slide-'+index);
+    const btn = slideEl.querySelector('.btn-download');
+    const tag = slideEl.querySelector('.slide-tag');
+    if (btn) btn.style.display='none';
+    if (tag) tag.style.display='none';            // guia narrativo nao entra na imagem
+    const w = slideEl.offsetWidth, h = slideEl.offsetHeight;
+    setTimeout(()=>{
+      html2canvas(slideEl,{scale:3,useCORS:true,allowTaint:true,backgroundColor:null,width:w,height:h,logging:false})
+      .then(canvas=>{
+        const link = document.createElement('a');
+        link.download = `slide-${String(index+1).padStart(2,'0')}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        if (tag) tag.style.display='';            // restaura a etiqueta no editor
+        if (index===state.slideAtual && btn) btn.style.display='block';
+        resolve();
+      }).catch(err=>{console.error(err);alert('Erro ao gerar PNG.');if(tag)tag.style.display='';if(btn)btn.style.display='block';resolve();});
+    },60);
+  });
+}
+
+async function baixarTodos(){
+  for (let i=0;i<state.total;i++){
+    await baixarSlide(i);
+    await new Promise(r=>setTimeout(r,400));
+  }
+}
+
+/* ===== INICIALIZACAO ===== */
+selecionarPilar('corpo', document.querySelector('.pilar-btn[data-pilar="corpo"]'));
+
+/* ===== PWA: registra o service worker (so funciona quando hospedado em https) ===== */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(()=>{ /* ignora em file:// */ });
+  });
+}
+</script>
+</body>
+</html>

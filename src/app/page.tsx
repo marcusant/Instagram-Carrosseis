@@ -101,7 +101,9 @@ export default function Page() {
   const [paletaAtiva, setPaletaAtiva] = useState<PaletaId | null>(
     banco.corpo.paleta,
   );
-  const [ajustes, setAjustes] = useState<Ajustes>(AJUSTES_PADRAO);
+  // Ajustes de texto (tamanho/posição) por slide — chave: pilar-index-slide.
+  // Cada slide guarda os seus, pra não bagunçar slides que terão foto.
+  const [ajustes, setAjustes] = useState<Record<string, Ajustes>>({});
   const [fontes, setFontes] = useState<Fontes>(FONTES_PADRAO);
 
   const [carregandoIA, setCarregandoIA] = useState(false);
@@ -148,13 +150,7 @@ export default function Page() {
     r.setProperty("--cor-marca", cores.marca);
   }, [cores]);
 
-  // ===== Aplica ajustes de texto ao :root =====
-  useEffect(() => {
-    const r = document.documentElement.style;
-    r.setProperty("--escala-titulo", ajustes.titulo.toFixed(2));
-    r.setProperty("--escala-corpo", ajustes.corpo.toFixed(2));
-    r.setProperty("--desloc-v", `${ajustes.pos}px`);
-  }, [ajustes]);
+  // Ajustes de texto são aplicados por slide (inline), não no :root — ver render.
 
   // ===== Aplica fontes do slide ao :root (não afeta a interface) =====
   useEffect(() => {
@@ -264,15 +260,25 @@ export default function Page() {
     }
   }
 
-  // ===== Ajustes de texto =====
+  // ===== Ajustes de texto (somente o slide aberto) =====
   function ajustar(tipo: keyof Ajustes, delta: number) {
-    setAjustes((a) => {
+    setAjustes((prev) => {
+      const a = prev[chaveAtual] ?? AJUSTES_PADRAO;
+      let proximo: Ajustes;
       if (tipo === "titulo")
-        return { ...a, titulo: Math.min(1.6, Math.max(0.7, a.titulo + delta)) };
-      if (tipo === "corpo")
-        return { ...a, corpo: Math.min(1.8, Math.max(0.7, a.corpo + delta)) };
-      return { ...a, pos: Math.min(120, Math.max(-120, a.pos + delta)) };
+        proximo = { ...a, titulo: Math.min(1.6, Math.max(0.7, a.titulo + delta)) };
+      else if (tipo === "corpo")
+        proximo = { ...a, corpo: Math.min(1.8, Math.max(0.7, a.corpo + delta)) };
+      else proximo = { ...a, pos: Math.min(120, Math.max(-120, a.pos + delta)) };
+      return { ...prev, [chaveAtual]: proximo };
     });
+  }
+
+  // Reseta os ajustes apenas do slide aberto.
+  function resetarAjuste() {
+    setAjustes((prev) =>
+      Object.fromEntries(Object.entries(prev).filter(([k]) => k !== chaveAtual)),
+    );
   }
 
   // ===== Paletas =====
@@ -460,8 +466,8 @@ export default function Page() {
             ↓
           </button>
         </div>
-        <button className="aj-reset" onClick={() => setAjustes(AJUSTES_PADRAO)}>
-          Resetar
+        <button className="aj-reset" onClick={resetarAjuste}>
+          Resetar slide
         </button>
       </div>
 
@@ -621,8 +627,19 @@ export default function Page() {
                 isCta ? " slide-6" : ""
               }${limpo ? " modo-limpo" : ""}${img ? " tem-imagem" : ""}`;
               const mostraNumero = !isGancho && !isCta;
+              const aj = ajustes[chave] ?? AJUSTES_PADRAO;
+              const estiloSlide = {
+                "--escala-titulo": aj.titulo.toFixed(2),
+                "--escala-corpo": aj.corpo.toFixed(2),
+                "--desloc-v": `${aj.pos}px`,
+              } as React.CSSProperties;
               return (
-                <div className={classe} id={`slide-${i}`} key={i}>
+                <div
+                  className={classe}
+                  id={`slide-${i}`}
+                  key={i}
+                  style={estiloSlide}
+                >
                   {img && (
                     <div
                       className="slide-imagem"

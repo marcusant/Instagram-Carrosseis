@@ -177,6 +177,11 @@ function sugestaoPorPapel(posicao: number, total: number): string {
  * @param total   total de slides do carrossel
  */
 export function sugestaoFoto(slide: Slide, posicao: number, total: number): string {
+  // Sugestão curada vence: foi escrita lendo o conteúdo exato deste slide.
+  if (slide.foto && slide.foto.trim()) {
+    return slide.foto.trim();
+  }
+
   const textoBruto = [slide.tag, slide.h, slide.a, ...slide.c].join(" ");
   const texto = normalizar(textoBruto);
 

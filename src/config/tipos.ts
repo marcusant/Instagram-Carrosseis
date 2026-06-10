@@ -14,6 +14,12 @@ export interface Slide {
   a: string;
   /** Linhas do corpo do texto. */
   c: string[];
+  /**
+   * Sugestão de foto curada para este slide (descrição da imagem ideal,
+   * lida do conteúdo do slide). Opcional: slides sem `foto` (ex.: gerados
+   * por IA) caem no gerador automático por palavra-chave.
+   */
+  foto?: string;
 }
 
 /** Um carrossel completo = lista de slides (normalmente 6). */

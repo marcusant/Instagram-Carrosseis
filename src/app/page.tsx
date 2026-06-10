@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { banco } from "@/config/banco";
 import { HANDLE, paletas, paletasMeta, pilaresMeta } from "@/config/pilares";
+import { sugestaoFoto } from "@/config/sugestoes";
 import type {
   Carrossel,
   OrigemCarrossel,
@@ -291,6 +292,11 @@ export default function Page() {
   const temImagemAtual = Boolean(imagens[chaveAtual]);
   // Slide com imagem entra automaticamente no modo limpo.
   const limpoAtual = temImagemAtual || Boolean(limpos[chaveAtual]);
+  // Sugestão de foto baseada no contexto do slide selecionado (só guia de UI).
+  const sugestaoAtual = useMemo(
+    () => sugestaoFoto(atual.slides[slideAtual], slideAtual, total),
+    [atual, slideAtual, total],
+  );
 
   function enviarImagem(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -553,6 +559,10 @@ export default function Page() {
             <span className="paleta-label">
               Imagem de fundo · slide {slideAtual + 1}
             </span>
+            <div className="sugestao-foto" title="Ideia de foto pra este slide (não aparece no download)">
+              <span className="sugestao-foto-titulo">💡 Sugestão de foto</span>
+              <span className="sugestao-foto-texto">{sugestaoAtual}</span>
+            </div>
             <input
               ref={fileInputRef}
               type="file"

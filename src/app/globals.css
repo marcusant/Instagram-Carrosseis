@@ -471,6 +471,28 @@ input[type="color"] {
 .img-toggle input:disabled {
   cursor: not-allowed;
 }
+.sugestao-foto {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  background: #1a160f;
+  border: 1px dashed var(--cor-borda);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.sugestao-foto-titulo {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--cor-acento);
+}
+.sugestao-foto-texto {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #cfc6ba;
+}
 
 /* ===== PAINEL DE FONTES ===== */
 .fontes-wrapper {

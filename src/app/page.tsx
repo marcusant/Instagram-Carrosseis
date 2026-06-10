@@ -373,8 +373,8 @@ export default function Page() {
   return (
     <>
       <div className="topo">
-        <div className="marca">Criador de Carrosseis</div>
-        <div className="sub">Corpo Ativo • Mente Clara • Essencia Desperta</div>
+        <div className="marca">Criador de Carrosséis</div>
+        <div className="sub">Corpo Ativo • Mente Clara • Essência Desperta</div>
       </div>
 
       <div className="app">
@@ -427,14 +427,14 @@ export default function Page() {
       {erroIA && <div className="erro-ia">{erroIA}</div>}
 
       <div className="dica-edicao">
-        ✎ Clique para editar titulo, corpo e icone &nbsp;•&nbsp; as etiquetas
-        tracejadas sao guias e NAO aparecem no download
+        ✎ Clique para editar título, corpo e ícone &nbsp;•&nbsp; as etiquetas
+        tracejadas são guias e NÃO aparecem no download
       </div>
 
       {/* AJUSTES */}
       <div className="ajustes">
         <div className="aj-grupo">
-          <span className="aj-label">Titulo</span>
+          <span className="aj-label">Título</span>
           <button className="aj-btn" onClick={() => ajustar("titulo", -0.08)}>
             A-
           </button>
@@ -452,7 +452,7 @@ export default function Page() {
           </button>
         </div>
         <div className="aj-grupo">
-          <span className="aj-label">Posicao</span>
+          <span className="aj-label">Posição</span>
           <button className="aj-btn" onClick={() => ajustar("pos", -12)}>
             ↑
           </button>
@@ -469,7 +469,7 @@ export default function Page() {
       <div className="fontes-wrapper">
         <span className="paleta-label">Fontes</span>
         <div className="fonte-row">
-          <span className="fonte-label">Titulo</span>
+          <span className="fonte-label">Título</span>
           <select
             className="fonte-select"
             value={fontes.titulo}
@@ -640,7 +640,7 @@ export default function Page() {
                         ? { left: "50%", transform: "translateX(-50%)" }
                         : undefined
                     }
-                    title="Guia narrativo (nao aparece no download)"
+                    title="Guia narrativo (não aparece no download)"
                   >
                     {s.tag}
                   </div>
@@ -655,7 +655,7 @@ export default function Page() {
                       contentEditable
                       suppressContentEditableWarning
                       spellCheck={false}
-                      title="Clique para editar ou apagar o icone"
+                      title="Clique para editar ou apagar o ícone"
                     >
                       {s.ic}
                     </div>
@@ -685,7 +685,7 @@ export default function Page() {
                     contentEditable
                     suppressContentEditableWarning
                     spellCheck={false}
-                    title="Clique para editar a marca d'agua"
+                    title="Clique para editar a marca d'água"
                   >
                     {HANDLE}
                   </div>

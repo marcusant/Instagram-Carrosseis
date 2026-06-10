@@ -2,9 +2,9 @@ import type { Paleta, PaletaId, PilarMeta } from "./tipos";
 
 /** Botões de seleção de pilar (ordem de exibição). */
 export const pilaresMeta: PilarMeta[] = [
-  { id: "corpo", pic: "🏃", nom: "Corpo Ativo", des: "Saude fisica e movimento" },
-  { id: "mente", pic: "🧠", nom: "Mente Clara", des: "Foco e equilibrio mental" },
-  { id: "essencia", pic: "🕊️", nom: "Essencia Desperta", des: "Espiritualidade e proposito" },
+  { id: "corpo", pic: "🏃", nom: "Corpo Ativo", des: "Saúde física e movimento" },
+  { id: "mente", pic: "🧠", nom: "Mente Clara", des: "Foco e equilíbrio mental" },
+  { id: "essencia", pic: "🕊️", nom: "Essência Desperta", des: "Espiritualidade e propósito" },
 ];
 
 /** Paletas de cor disponíveis. */

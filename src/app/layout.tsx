@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Criador de Carrosseis | Marcus Santos",
+  title: "Criador de Carrosséis | Marcus Santos",
   description:
-    "Criador privado de carrosseis do Instagram — banco interno + geracao por IA.",
+    "Criador privado de carrosséis do Instagram — banco interno + geração por IA.",
 };
 
 export const viewport: Viewport = {

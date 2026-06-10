@@ -55,4 +55,6 @@ export interface Paleta {
   textoSub: string;
   card: string;
   borda: string;
+  /** Cor da marca d'água (@handle no rodapé do slide). */
+  marca: string;
 }

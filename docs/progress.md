@@ -24,6 +24,68 @@
 
 ## Histórico
 
+### 2026-06-10 — Tamanhos de carrossel (6 / 7 / 9) + novo conteúdo
+- Pesquisa: faixa ideal 7–10 slides; estrutura (gancho → 1 ideia/slide →
+  resumo → CTA) > quantidade. Escolhidos **6 (compacto), 7 (equilibrado),
+  9 (aprofundado)**; 7 preferido a 5.
+- Seletor "Tamanho do carrossel" (6/7/9) nos controles; `tamanho` em estado.
+- `itensBanco`/`lista` filtram as variantes por `slides.length === tamanho`
+  (sem mudança de tipos). Render, cores, fonte, imagem e export já eram
+  agnósticos ao nº de slides.
+- **Conteúdo novo** em `banco.ts`: 2 variantes de 7 e 2 de 9 por pilar (12 novos
+  carrosséis, ~96 slides), na voz atual (sem acentos), estrutura com tags
+  Contexto/Aprofundamento/Exemplo/Resumo conforme o tamanho.
+- Validado: `typecheck` ✅, `build` ✅, conferido (6/7/9 dots; "Gerar outro"
+  alterna entre as 2 variantes de cada tamanho).
+
+### 2026-06-10 — Seletor de fonte (título e corpo) + itálico
+- Painel "Fontes" com **dois seletores** (Título e Corpo) e **itálico** em cada.
+- 11 opções: Google (Playfair, Lora, DM Sans, Montserrat, Oswald, Bebas Neue —
+  carregadas no `layout.tsx`) + sistema (Georgia, Times, Arial, Verdana, Courier).
+- Fontes do slide usam vars próprias (`--slide-fonte-titulo`/`-corpo` +
+  `--slide-estilo-*`), então **não afetam a fonte da interface**.
+- Estado `fontes` em `page.tsx`; aplicado no `:root` por efeito.
+- Validado: `typecheck` ✅, `build` ✅, conferido (título em Montserrat itálico).
+
+### 2026-06-10 — Imagem de fundo por slide + modo limpo + margem do texto
+- **Imagem de fundo por slide**: botão "Enviar/Trocar imagem" no painel de
+  controles (input file → `FileReader`/dataURL, aplica ao slide aberto). A foto
+  vira fundo `cover` com um degradê escuro (scrim) para leitura. Entra no PNG
+  exportado (dataURL, sem CORS). Estado em `imagens: Record<chave, dataURL>`,
+  chave = `pilar-index-slide`.
+- **Modo limpo**: esconde número, círculo, linha, brilho e etiqueta, e ancora o
+  texto na base (como na referência). **Automático** quando há imagem +
+  **interruptor manual** ("Modo limpo") para usar sem foto. Estado em `limpos`.
+- **Margem/ocupação do texto**: corpo deixou de ser limitado a `max-width: 88%`;
+  agora usa a área inteira com a mesma margem (padding) do título — o texto pode
+  crescer e ocupar mais espaço sem encostar nas bordas.
+- Mexe em `page.tsx` (estado + funções `enviarImagem`/`removerImagem`/
+  `alternarLimpo` + render) e `globals.css`. Sem novas dependências.
+- Validado: `typecheck` ✅, `build` ✅, conferido no navegador (modo limpo +
+  imagem de fundo + degradê).
+
+### 2026-06-09 — Layout em duas colunas (preview fixo) + botões reorganizados
+- Reorganização completa da página: cabeçalho no topo (largura total),
+  **controles à esquerda** (painéis) e **preview do carrossel à direita, fixo
+  (`position: sticky`)** — dá pra editar e ver o slide mudar sem rolar a página.
+- No mobile, vira coluna única com o **preview no topo** (`order: -1`).
+- Botões de pilar agora em grid compacto de 3 (corrigido o nome grudado na
+  descrição); barra de geração com botões de largura total; paleta e ajustes
+  viraram painéis com visual unificado.
+- Sem mudança de lógica; `globals.css` + estrutura JSX de `page.tsx`.
+- Validado: `typecheck` ✅, `build` ✅, conferido no navegador (desktop + mobile).
+
+### 2026-06-09 — Edição de cor por elemento + marca d'água editável
+- Antes só dava pra trocar 3 cores globais (primária/acento/fundo). Agora há um
+  seletor de cor para **cada elemento** do slide: Fundo, Título, Destaque,
+  Texto (corpo), Detalhes (linhas/divisor/tag/CTA/anel interno), Número & círculo
+  e Marca d'água.
+- Novo token `--cor-marca` (em `tipos.ts`, `pilares.ts`, `globals.css`) dá à
+  marca d'água (`@handle`) cor independente do corpo do texto.
+- Marca d'água agora é **contenteditable** (dá pra alterar o texto também).
+- `page.tsx`: constante `CORES_EDITAVEIS` + `aplicarCorCustom(keyof Paleta)`.
+- Validado: `typecheck` ✅, `build` ✅.
+
 ### 2026-06-09 — Fase 1 concluída (scaffold + banco offline)
 - Scaffold manual do Next.js 15.5.19 + React 19 + TS strict (App Router).
 - Banco interno portado para `src/config/banco.ts` (3×3×6 slides), tipos em

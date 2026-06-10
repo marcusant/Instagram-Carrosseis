@@ -6,8 +6,14 @@
   --cor-texto-sub: #a89880;
   --cor-card: #221a0c;
   --cor-borda: #3d2e14;
+  --cor-marca: #a89880;
   --fonte-titulo: "Playfair Display", serif;
   --fonte-corpo: "DM Sans", sans-serif;
+  /* Fontes do TEXTO DO SLIDE (editáveis; não afetam a interface). */
+  --slide-fonte-titulo: "Playfair Display", serif;
+  --slide-fonte-corpo: "DM Sans", sans-serif;
+  --slide-estilo-titulo: normal;
+  --slide-estilo-corpo: normal;
   --escala-titulo: 1;
   --escala-corpo: 1;
   --desloc-v: 0px;
@@ -26,8 +32,43 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  padding: 28px 16px 48px;
-  gap: 18px;
+  padding: 24px 20px 48px;
+  gap: 16px;
+}
+
+/* ===== LAYOUT EM DUAS COLUNAS ===== */
+.app {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  width: 100%;
+  max-width: 1060px;
+}
+.controls-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.preview-col {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+@media (max-width: 980px) {
+  .app {
+    grid-template-columns: 1fr;
+    max-width: 560px;
+  }
+  .preview-col {
+    position: static;
+    order: -1;
+  }
 }
 
 .topo {
@@ -47,22 +88,19 @@ body {
 
 /* ===== SELETOR DE PILARES ===== */
 .pilares {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
   width: 100%;
-  max-width: 560px;
 }
 .pilar-btn {
-  flex: 1;
-  min-width: 150px;
+  min-width: 0;
   background: #161616;
   border: 1px solid #2a2a2a;
-  border-radius: 14px;
-  padding: 16px 14px;
+  border-radius: 12px;
+  padding: 12px 8px;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.2s;
   text-align: center;
 }
 .pilar-btn:hover {
@@ -74,21 +112,62 @@ body {
   background: #1c1710;
 }
 .pilar-btn .pic {
-  font-size: 24px;
+  font-size: 20px;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 .pilar-btn .nom {
+  display: block;
   font-family: var(--fonte-titulo);
-  font-size: 17px;
+  font-size: 13px;
+  line-height: 1.15;
   color: #eee;
   font-weight: 700;
 }
 .pilar-btn .des {
-  font-size: 10px;
-  color: #777;
-  margin-top: 4px;
+  display: none;
+}
+
+/* ===== SELETOR DE TAMANHO ===== */
+.tamanhos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+.tamanho-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  padding: 9px 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tamanho-btn:hover {
+  border-color: #555;
+}
+.tamanho-btn.ativo {
+  border-color: var(--cor-primaria);
+  background: #1c1710;
+}
+.tamanho-btn .tam-n {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ddd;
+}
+.tamanho-btn.ativo .tam-n {
+  color: var(--cor-acento);
+}
+.tamanho-btn .tam-nome {
+  font-size: 9px;
   letter-spacing: 0.5px;
+  color: #777;
+  text-transform: uppercase;
 }
 .pilar-btn.ativo .nom {
   color: var(--cor-acento);
@@ -97,21 +176,20 @@ body {
 /* ===== BARRA DE CONTROLE ===== */
 .controle {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
   width: 100%;
-  max-width: 560px;
   background: #141414;
   border: 1px solid #242424;
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 14px 16px;
 }
 .controle .rotulo {
   font-size: 12px;
   color: #999;
   letter-spacing: 1px;
+  text-align: center;
 }
 .controle .rotulo b {
   color: var(--cor-acento);
@@ -125,14 +203,15 @@ body {
   color: var(--cor-acento);
 }
 .btn-gerar {
+  width: 100%;
   background: var(--cor-primaria);
   color: #1a1208;
   border: none;
   border-radius: 8px;
-  padding: 9px 18px;
+  padding: 11px 18px;
   font-family: var(--fonte-corpo);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 12.5px;
   letter-spacing: 0.5px;
   cursor: pointer;
   transition: all 0.2s;
@@ -142,14 +221,15 @@ body {
   transform: translateY(-1px);
 }
 .btn-ia {
+  width: 100%;
   background: transparent;
   color: var(--cor-acento);
   border: 1px solid var(--cor-primaria);
   border-radius: 8px;
-  padding: 9px 18px;
+  padding: 11px 18px;
   font-family: var(--fonte-corpo);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 12.5px;
   letter-spacing: 0.5px;
   cursor: pointer;
   transition: all 0.2s;
@@ -176,16 +256,15 @@ body {
 /* ===== AJUSTES DE TEXTO ===== */
 .ajustes {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 560px;
   background: #141414;
   border: 1px solid #242424;
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 14px 16px;
 }
 .aj-grupo {
   display: flex;
@@ -236,9 +315,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
-  max-width: 560px;
+  background: #141414;
+  border: 1px solid #242424;
+  border-radius: 12px;
+  padding: 14px 16px;
 }
 .paleta-label {
   color: #666;
@@ -279,26 +361,177 @@ body {
   height: 12px;
   border-radius: 50%;
 }
-.custom-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.custom-row label {
+.custom-titulo {
   color: #666;
-  font-size: 11px;
-  letter-spacing: 1px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.custom-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 16px;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 100%;
+}
+.custom-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  width: 64px;
+}
+.custom-item span {
+  color: #888;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.2;
 }
 input[type="color"] {
-  width: 28px;
-  height: 28px;
-  border: none;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #333;
   border-radius: 50%;
   cursor: pointer;
   background: none;
   padding: 0;
+}
+
+/* ===== PAINEL DE IMAGEM ===== */
+.imagem-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: #141414;
+  border: 1px solid #242424;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.imagem-acoes {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.btn-img {
+  flex: 1;
+  background: #1d1d1d;
+  color: var(--cor-acento);
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--fonte-corpo);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-img:hover {
+  border-color: var(--cor-primaria);
+  background: #262019;
+}
+.btn-img-remover {
+  background: none;
+  color: #c98080;
+  border: 1px solid #5a2a2a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-img-remover:hover {
+  border-color: #ff8080;
+  color: #ff9b9b;
+}
+.img-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #999;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  width: 100%;
+}
+.img-toggle input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--cor-primaria);
+  cursor: pointer;
+}
+.img-toggle input:disabled {
+  cursor: not-allowed;
+}
+
+/* ===== PAINEL DE FONTES ===== */
+.fontes-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  background: #141414;
+  border: 1px solid #242424;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.fontes-wrapper .paleta-label {
+  align-self: center;
+}
+.fonte-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fonte-label {
+  font-size: 11px;
+  color: #999;
+  letter-spacing: 1px;
+  width: 46px;
+  flex-shrink: 0;
+}
+.fonte-select {
+  flex: 1;
+  min-width: 0;
+  background: #1d1d1d;
+  color: #ddd;
+  border: 1px solid #333;
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-family: var(--fonte-corpo);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.fonte-select:hover {
+  border-color: var(--cor-primaria);
+}
+.fonte-italico {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.fonte-italico i {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  color: #999;
+}
+.fonte-italico input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--cor-primaria);
+  cursor: pointer;
 }
 
 /* ===== CARROSSEL ===== */
@@ -415,7 +648,8 @@ input[type="color"] {
   z-index: 3;
 }
 .slide-headline {
-  font-family: var(--fonte-titulo);
+  font-family: var(--slide-fonte-titulo);
+  font-style: var(--slide-estilo-titulo, normal);
   font-size: calc(clamp(26px, 5vw, 36px) * var(--escala-titulo, 1));
   font-weight: 700;
   color: var(--cor-texto);
@@ -428,14 +662,18 @@ input[type="color"] {
   color: var(--cor-acento);
 }
 .slide-corpo {
-  font-family: var(--fonte-corpo);
+  font-family: var(--slide-fonte-corpo);
+  font-style: var(--slide-estilo-corpo, normal);
   font-size: calc(clamp(12px, 2.2vw, 14px) * var(--escala-corpo, 1));
   font-weight: 300;
   color: var(--cor-texto-sub);
   line-height: 1.6;
   position: relative;
   z-index: 3;
-  max-width: 88%;
+  /* Usa a largura inteira da área de conteúdo; a margem vem do padding do
+     slide (mesma margem do título à esquerda). Assim o texto pode ocupar
+     mais espaço ao crescer, sem encostar nas bordas. */
+  max-width: 100%;
 }
 .slide-divisor {
   width: 40px;
@@ -452,10 +690,53 @@ input[type="color"] {
   right: 44px;
   font-size: 10px;
   letter-spacing: 2px;
-  color: var(--cor-texto-sub);
+  color: var(--cor-marca);
   z-index: 3;
   font-weight: 400;
   opacity: 0.45;
+}
+
+/* ===== IMAGEM DE FUNDO + MODO LIMPO ===== */
+.slide-imagem {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+.slide-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.55) 38%,
+    rgba(0, 0, 0, 0.12) 70%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+}
+/* Esconde os elementos decorativos no modo limpo. */
+.slide.modo-limpo .slide-numero,
+.slide.modo-limpo .slide-deco,
+.slide.modo-limpo .slide-linha,
+.slide.modo-limpo .bg-glow,
+.slide.modo-limpo .slide-tag {
+  display: none;
+}
+/* Texto ancorado na base, como na referência (foto de fundo). */
+.slide.modo-limpo {
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-bottom: 64px;
+}
+.slide.modo-limpo .slide-conteudo {
+  width: 100%;
+}
+/* Com imagem, o título usa a cor de texto clara por padrão (legível sobre foto). */
+.slide.tem-imagem .slide-divisor {
+  background: var(--cor-acento);
 }
 
 [contenteditable="true"] {

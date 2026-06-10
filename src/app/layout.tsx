@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:ital,wght@0,400;0,600;1,400&family=Oswald:wght@400;600&family=Bebas+Neue&display=swap"
           rel="stylesheet"
         />
       </head>

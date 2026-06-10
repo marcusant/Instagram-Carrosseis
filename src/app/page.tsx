@@ -25,6 +25,58 @@ interface Ajustes {
 
 const AJUSTES_PADRAO: Ajustes = { titulo: 1, corpo: 1, pos: 0 };
 
+/** Tamanhos de carrossel oferecidos (nº de slides). */
+type Tamanho = 6 | 7 | 9;
+const TAMANHOS: { n: Tamanho; nome: string }[] = [
+  { n: 6, nome: "Compacto" },
+  { n: 7, nome: "Equilibrado" },
+  { n: 9, nome: "Aprofundado" },
+];
+
+/** Fonte do texto do slide (família + itálico), separada para título e corpo. */
+interface Fontes {
+  titulo: string;
+  corpo: string;
+  tituloItalico: boolean;
+  corpoItalico: boolean;
+}
+
+/** Fontes disponíveis: Google (carregadas no layout) + fontes do sistema. */
+const FONTES: { nome: string; valor: string }[] = [
+  { nome: "Playfair (serifada)", valor: '"Playfair Display", serif' },
+  { nome: "Lora (serifada)", valor: '"Lora", serif' },
+  { nome: "Georgia (serifada)", valor: "Georgia, serif" },
+  { nome: "Times", valor: '"Times New Roman", Times, serif' },
+  { nome: "DM Sans", valor: '"DM Sans", sans-serif' },
+  { nome: "Montserrat", valor: '"Montserrat", sans-serif' },
+  { nome: "Oswald (estreita)", valor: '"Oswald", sans-serif' },
+  { nome: "Bebas Neue (título)", valor: '"Bebas Neue", sans-serif' },
+  { nome: "Arial", valor: "Arial, Helvetica, sans-serif" },
+  { nome: "Verdana", valor: "Verdana, Geneva, sans-serif" },
+  { nome: "Courier (mono)", valor: '"Courier New", monospace' },
+];
+
+const FONTES_PADRAO: Fontes = {
+  titulo: '"Playfair Display", serif',
+  corpo: '"DM Sans", sans-serif',
+  tituloItalico: false,
+  corpoItalico: false,
+};
+
+/**
+ * Cores editáveis por elemento do slide. Cada item aponta para um token da
+ * paleta; assim todo elemento visível tem seu próprio seletor de cor.
+ */
+const CORES_EDITAVEIS: { campo: keyof Paleta; rotulo: string }[] = [
+  { campo: "fundo", rotulo: "Fundo" },
+  { campo: "texto", rotulo: "Título" },
+  { campo: "acento", rotulo: "Destaque" },
+  { campo: "textoSub", rotulo: "Texto" },
+  { campo: "primaria", rotulo: "Detalhes" },
+  { campo: "borda", rotulo: "Número & círculo" },
+  { campo: "marca", rotulo: "Marca d'água" },
+];
+
 /** Monta o HTML interno da headline (título + acento) respeitando o layout. */
 function headlineHtml(s: Slide, isCta: boolean): string {
   const sep = s.h && s.a && !isCta ? "<br>" : " ";
@@ -40,6 +92,7 @@ export default function Page() {
     mente: [],
     essencia: [],
   });
+  const [tamanho, setTamanho] = useState<Tamanho>(6);
   const [index, setIndex] = useState(0);
   const [slideAtual, setSlideAtual] = useState(0);
 
@@ -48,25 +101,34 @@ export default function Page() {
     banco.corpo.paleta,
   );
   const [ajustes, setAjustes] = useState<Ajustes>(AJUSTES_PADRAO);
+  const [fontes, setFontes] = useState<Fontes>(FONTES_PADRAO);
 
   const [carregandoIA, setCarregandoIA] = useState(false);
   const [erroIA, setErroIA] = useState<string | null>(null);
 
-  const viewportRef = useRef<HTMLDivElement>(null);
+  // Imagem de fundo por slide (chave: pilar-index-slide) como dataURL.
+  const [imagens, setImagens] = useState<Record<string, string>>({});
+  // Modo limpo manual por slide (sem número/círculo), mesmo sem imagem.
+  const [limpos, setLimpos] = useState<Record<string, boolean>>({});
 
-  // Itens do banco para o pilar atual (memoizado).
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Itens do banco para o pilar + tamanho atuais (memoizado).
   const itensBanco = useMemo<ItemCarrossel[]>(
     () =>
-      banco[pilar].variantes.map((slides) => ({
-        origem: "banco" as const,
-        slides,
-      })),
-    [pilar],
+      banco[pilar].variantes
+        .filter((slides) => slides.length === tamanho)
+        .map((slides) => ({ origem: "banco" as const, slides })),
+    [pilar, tamanho],
   );
 
   const lista = useMemo<ItemCarrossel[]>(
-    () => [...itensBanco, ...extras[pilar]],
-    [itensBanco, extras, pilar],
+    () => [
+      ...itensBanco,
+      ...extras[pilar].filter((it) => it.slides.length === tamanho),
+    ],
+    [itensBanco, extras, pilar, tamanho],
   );
 
   const atual = lista[index] ?? lista[0];
@@ -82,6 +144,7 @@ export default function Page() {
     r.setProperty("--cor-texto-sub", cores.textoSub);
     r.setProperty("--cor-card", cores.card);
     r.setProperty("--cor-borda", cores.borda);
+    r.setProperty("--cor-marca", cores.marca);
   }, [cores]);
 
   // ===== Aplica ajustes de texto ao :root =====
@@ -91,6 +154,15 @@ export default function Page() {
     r.setProperty("--escala-corpo", ajustes.corpo.toFixed(2));
     r.setProperty("--desloc-v", `${ajustes.pos}px`);
   }, [ajustes]);
+
+  // ===== Aplica fontes do slide ao :root (não afeta a interface) =====
+  useEffect(() => {
+    const r = document.documentElement.style;
+    r.setProperty("--slide-fonte-titulo", fontes.titulo);
+    r.setProperty("--slide-fonte-corpo", fontes.corpo);
+    r.setProperty("--slide-estilo-titulo", fontes.tituloItalico ? "italic" : "normal");
+    r.setProperty("--slide-estilo-corpo", fontes.corpoItalico ? "italic" : "normal");
+  }, [fontes]);
 
   // ===== Navegação =====
   const navegar = useCallback(
@@ -140,6 +212,13 @@ export default function Page() {
     const pal = banco[id].paleta;
     setCores(paletas[pal]);
     setPaletaAtiva(pal);
+  }
+
+  // ===== Seleção de tamanho do carrossel =====
+  function selecionarTamanho(n: Tamanho) {
+    setTamanho(n);
+    setIndex(0);
+    setSlideAtual(0);
   }
 
   // ===== Gerar outro (banco + IA já gerados, em rotação) =====
@@ -200,9 +279,39 @@ export default function Page() {
     setCores(paletas[id]);
     setPaletaAtiva(id);
   }
-  function aplicarCorCustom(campo: "primaria" | "acento" | "fundo", valor: string) {
+  function aplicarCorCustom(campo: keyof Paleta, valor: string) {
     setCores((c) => ({ ...c, [campo]: valor }));
     setPaletaAtiva(null);
+  }
+
+  // ===== Imagem de fundo / modo limpo (por slide) =====
+  // Chave única do slide visível: pilar + variação + índice do slide.
+  const chaveSlide = (i: number) => `${pilar}-${index}-${i}`;
+  const chaveAtual = chaveSlide(slideAtual);
+  const temImagemAtual = Boolean(imagens[chaveAtual]);
+  // Slide com imagem entra automaticamente no modo limpo.
+  const limpoAtual = temImagemAtual || Boolean(limpos[chaveAtual]);
+
+  function enviarImagem(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () =>
+      setImagens((prev) => ({ ...prev, [chaveAtual]: reader.result as string }));
+    reader.readAsDataURL(file);
+    e.target.value = ""; // permite reenviar o mesmo arquivo depois
+  }
+
+  function removerImagem() {
+    setImagens((prev) =>
+      Object.fromEntries(
+        Object.entries(prev).filter(([k]) => k !== chaveAtual),
+      ),
+    );
+  }
+
+  function alternarLimpo() {
+    setLimpos((prev) => ({ ...prev, [chaveAtual]: !prev[chaveAtual] }));
   }
 
   // ===== Export PNG =====
@@ -262,8 +371,10 @@ export default function Page() {
         <div className="sub">Corpo Ativo • Mente Clara • Essencia Desperta</div>
       </div>
 
-      {/* PILARES */}
-      <div className="pilares">
+      <div className="app">
+        <aside className="controls-col">
+          {/* PILARES */}
+          <div className="pilares">
         {pilaresMeta.map((p) => (
           <button
             key={p.id}
@@ -273,6 +384,20 @@ export default function Page() {
             <span className="pic">{p.pic}</span>
             <span className="nom">{p.nom}</span>
             <span className="des">{p.des}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* TAMANHO DO CARROSSEL */}
+      <div className="tamanhos">
+        {TAMANHOS.map((t) => (
+          <button
+            key={t.n}
+            className={`tamanho-btn${tamanho === t.n ? " ativo" : ""}`}
+            onClick={() => selecionarTamanho(t.n)}
+          >
+            <span className="tam-n">{t.n} slides</span>
+            <span className="tam-nome">{t.nome}</span>
           </button>
         ))}
       </div>
@@ -334,6 +459,63 @@ export default function Page() {
         </button>
       </div>
 
+      {/* FONTES */}
+      <div className="fontes-wrapper">
+        <span className="paleta-label">Fontes</span>
+        <div className="fonte-row">
+          <span className="fonte-label">Titulo</span>
+          <select
+            className="fonte-select"
+            value={fontes.titulo}
+            onChange={(e) =>
+              setFontes((f) => ({ ...f, titulo: e.target.value }))
+            }
+          >
+            {FONTES.map((ft) => (
+              <option key={ft.valor} value={ft.valor}>
+                {ft.nome}
+              </option>
+            ))}
+          </select>
+          <label className="fonte-italico" title="Itálico no título">
+            <input
+              type="checkbox"
+              checked={fontes.tituloItalico}
+              onChange={(e) =>
+                setFontes((f) => ({ ...f, tituloItalico: e.target.checked }))
+              }
+            />
+            <i>I</i>
+          </label>
+        </div>
+        <div className="fonte-row">
+          <span className="fonte-label">Corpo</span>
+          <select
+            className="fonte-select"
+            value={fontes.corpo}
+            onChange={(e) =>
+              setFontes((f) => ({ ...f, corpo: e.target.value }))
+            }
+          >
+            {FONTES.map((ft) => (
+              <option key={ft.valor} value={ft.valor}>
+                {ft.nome}
+              </option>
+            ))}
+          </select>
+          <label className="fonte-italico" title="Itálico no corpo">
+            <input
+              type="checkbox"
+              checked={fontes.corpoItalico}
+              onChange={(e) =>
+                setFontes((f) => ({ ...f, corpoItalico: e.target.checked }))
+              }
+            />
+            <i>I</i>
+          </label>
+        </div>
+      </div>
+
       {/* PALETA */}
       <div className="paleta-wrapper">
         <span className="paleta-label">Paleta de Cores</span>
@@ -349,36 +531,64 @@ export default function Page() {
             </button>
           ))}
         </div>
-        <div className="custom-row">
-          <label>Primaria:</label>
-          <input
-            type="color"
-            value={cores.primaria}
-            onInput={(e) =>
-              aplicarCorCustom("primaria", (e.target as HTMLInputElement).value)
-            }
-          />
-          <label>Acento:</label>
-          <input
-            type="color"
-            value={cores.acento}
-            onInput={(e) =>
-              aplicarCorCustom("acento", (e.target as HTMLInputElement).value)
-            }
-          />
-          <label>Fundo:</label>
-          <input
-            type="color"
-            value={cores.fundo}
-            onInput={(e) =>
-              aplicarCorCustom("fundo", (e.target as HTMLInputElement).value)
-            }
-          />
+        <span className="custom-titulo">Cor de cada elemento</span>
+        <div className="custom-grid">
+          {CORES_EDITAVEIS.map(({ campo, rotulo }) => (
+            <label className="custom-item" key={campo} title={`Cor: ${rotulo}`}>
+              <input
+                type="color"
+                value={cores[campo]}
+                onInput={(e) =>
+                  aplicarCorCustom(campo, (e.target as HTMLInputElement).value)
+                }
+              />
+              <span>{rotulo}</span>
+            </label>
+          ))}
         </div>
       </div>
 
-      {/* CARROSSEL */}
-      <div className="carrossel-wrapper">
+          {/* IMAGEM DE FUNDO */}
+          <div className="imagem-wrapper">
+            <span className="paleta-label">
+              Imagem de fundo · slide {slideAtual + 1}
+            </span>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={enviarImagem}
+              style={{ display: "none" }}
+            />
+            <div className="imagem-acoes">
+              <button
+                className="btn-img"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                📷 {temImagemAtual ? "Trocar imagem" : "Enviar imagem"}
+              </button>
+              {temImagemAtual && (
+                <button className="btn-img-remover" onClick={removerImagem}>
+                  ✕ Remover
+                </button>
+              )}
+            </div>
+            <label className="img-toggle" title="Esconde número e círculo">
+              <input
+                type="checkbox"
+                checked={limpoAtual}
+                disabled={temImagemAtual}
+                onChange={alternarLimpo}
+              />
+              Modo limpo (sem número e círculo)
+            </label>
+          </div>
+
+        </aside>
+
+        <section className="preview-col">
+          {/* CARROSSEL */}
+          <div className="carrossel-wrapper">
         <button className="nav-btn prev" onClick={() => navegar(-1)}>
           ←
         </button>
@@ -394,12 +604,22 @@ export default function Page() {
             {atual.slides.map((s, i) => {
               const isGancho = i === 0;
               const isCta = i === total - 1;
+              const chave = `${pilar}-${index}-${i}`;
+              const img = imagens[chave];
+              const limpo = Boolean(img) || Boolean(limpos[chave]);
               const classe = `slide${isGancho ? " slide-1" : ""}${
                 isCta ? " slide-6" : ""
-              }`;
+              }${limpo ? " modo-limpo" : ""}${img ? " tem-imagem" : ""}`;
               const mostraNumero = !isGancho && !isCta;
               return (
                 <div className={classe} id={`slide-${i}`} key={i}>
+                  {img && (
+                    <div
+                      className="slide-imagem"
+                      style={{ backgroundImage: `url(${img})` }}
+                    />
+                  )}
+                  {img && <div className="slide-scrim" />}
                   <div className="slide-deco" />
                   {isGancho && <div className="bg-glow" />}
                   {!isCta && <div className="slide-linha" />}
@@ -450,7 +670,15 @@ export default function Page() {
                       <div className="cta-box">Seguir → {HANDLE}</div>
                     )}
                   </div>
-                  <div className="slide-handle">{HANDLE}</div>
+                  <div
+                    className="slide-handle"
+                    contentEditable
+                    suppressContentEditableWarning
+                    spellCheck={false}
+                    title="Clique para editar a marca d'agua"
+                  >
+                    {HANDLE}
+                  </div>
                   {i === slideAtual && (
                     <button
                       className="btn-download"
@@ -480,9 +708,11 @@ export default function Page() {
       <div className="contador">
         {slideAtual + 1} / {total}
       </div>
-      <button className="btn-baixar-todos" onClick={baixarTodos}>
-        ⬇ Baixar todos os slides
-      </button>
+          <button className="btn-baixar-todos" onClick={baixarTodos}>
+            ⬇ Baixar todos os slides
+          </button>
+        </section>
+      </div>
     </>
   );
 }

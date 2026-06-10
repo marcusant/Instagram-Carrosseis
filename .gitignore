@@ -21,3 +21,6 @@ next-env.d.ts
 
 # os
 .DS_Store
+
+# local tooling (preview/dev config)
+/.claude/

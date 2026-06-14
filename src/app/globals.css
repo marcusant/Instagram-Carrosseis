@@ -408,6 +408,44 @@ body {
   border-color: #666;
   color: #ccc;
 }
+.aj-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 56px;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--cor-acento);
+  background: #1a1410;
+  border: 1px solid #3a2c1c;
+  border-radius: 7px;
+  padding: 4px 8px;
+  letter-spacing: 0.3px;
+}
+.aj-size-ico {
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1;
+  color: #c9c9c9;
+}
+.aj-size-ico--sm {
+  font-size: 10px;
+}
+.aj-dica {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: #8a8a8a;
+  text-align: center;
+}
+.aj-dica b {
+  color: #bdbdbd;
+  font-weight: 600;
+}
 
 /* ===== PALETA ===== */
 .paleta-wrapper {
@@ -664,6 +702,9 @@ input[type="color"] {
 .carrossel-viewport {
   width: 100%;
   aspect-ratio: 1 / 1;
+  /* Vira container de consulta: as fontes do slide em cqw passam a ser
+     proporcionais à largura do slide (e não da janela). */
+  container-type: inline-size;
   overflow: hidden;
   transition: aspect-ratio 0.2s;
   border-radius: 16px;
@@ -775,7 +816,10 @@ input[type="color"] {
 .slide-headline {
   font-family: var(--slide-fonte-titulo);
   font-style: var(--slide-estilo-titulo, normal);
-  font-size: calc(clamp(26px, 5vw, 36px) * var(--escala-titulo, 1));
+  /* Em cqw (1% da largura do slide) o tamanho é proporcional ao slide e
+     idêntico na tela e no download (1080px), independente do monitor.
+     6.4cqw ≈ 69px num canvas de 1080px (ponto de partida recomendado). */
+  font-size: calc(6.4cqw * var(--escala-titulo, 1));
   font-weight: 700;
   color: var(--cor-texto);
   line-height: 1.2;
@@ -789,7 +833,8 @@ input[type="color"] {
 .slide-corpo {
   font-family: var(--slide-fonte-corpo);
   font-style: var(--slide-estilo-corpo, normal);
-  font-size: calc(clamp(12px, 2.2vw, 14px) * var(--escala-corpo, 1));
+  /* 2.8cqw ≈ 30px num canvas de 1080px — ver nota no .slide-headline. */
+  font-size: calc(2.8cqw * var(--escala-corpo, 1));
   font-weight: 300;
   color: var(--cor-texto-sub);
   line-height: 1.6;

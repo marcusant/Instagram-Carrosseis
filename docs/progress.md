@@ -28,6 +28,24 @@
 
 ## Histórico
 
+### 2026-06-14 — Badge de tamanho de fonte + download em HD (1080) + recomendação
+- **Badge "Npx" por slide** ao lado de A−/A+ (título) e a−/a+ (corpo): mostra o
+  tamanho da fonte **no download (canvas 1080px)**, reativo aos ajustes. Permite
+  identificar/igualar o tamanho entre os slides do carrossel.
+- **Download em HD padrão Instagram**: export passa a renderizar em **exatamente
+  1080×1080 (1:1)** ou **1080×1350 (4:5)** — `scale = 1080 / largura_do_slide`
+  (antes era `scale: 3`, gerando 1680px fora do padrão).
+- **Fontes determinísticas via `cqw`**: `.slide-headline`/`.slide-corpo` trocaram
+  `vw` por `cqw` (proporção da largura do slide; `.carrossel-viewport` virou
+  `container-type: inline-size`). Resultado: tamanho **idêntico na tela e no
+  download**, em qualquer monitor, e o badge fica exato. Título 6.4cqw (≈69px),
+  corpo 2.8cqw (≈30px).
+- **Recomendação de profissionais**: nota no painel (ideal no feed 1080×1350 —
+  título 60–80px, corpo 28–36px). **Corpo padrão subiu de 27→30px** pra entrar
+  de vez na faixa (mais legível no celular); título 69px já estava na faixa.
+- Validado: `typecheck` ✅, `build` ✅ e navegador ✅ (badges A69px/a30px nos
+  defaults, reatividade A+→80px, export medido 560→1080, sem erros no console).
+
 ### 2026-06-10 — +15 carrosséis novos no banco (gerados pelo Claude do chat)
 - A pedido do Marcus ("5 opções por pilar"), escritos à mão pelo Claude desta
   conversa (conteúdo REAL, não mock) e adicionados ao `banco.ts`: **5 carrosséis

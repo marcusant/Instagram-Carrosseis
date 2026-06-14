@@ -43,6 +43,18 @@ interface Ajustes {
 
 const AJUSTES_PADRAO: Ajustes = { titulo: 1, corpo: 1, pos: 0 };
 
+// Tamanho efetivo da fonte (px) no canvas final de 1080px, com escala 1.0.
+// Espelha os valores em cqw do CSS (título 6.4cqw, corpo 2.5cqw de 1080) e
+// serve tanto pro badge "Npx" dos controles quanto como base da recomendação.
+const FONTE_BASE_1080 = { titulo: 69, corpo: 30 } as const;
+
+// Faixa recomendada por profissionais para carrossel no feed (1080×1350).
+const FAIXA_IDEAL = { titulo: "60–80px", corpo: "28–36px" } as const;
+
+// Largura do PNG exportado. 1080 é o padrão do Instagram (1080×1080 ou
+// 1080×1350) — a resolução recomendada para máxima qualidade no feed.
+const LARGURA_EXPORT = 1080;
+
 /**
  * Edições de texto feitas pelo usuário num slide (sobrepõem o conteúdo do
  * banco/IA na renderização). Capturadas no blur dos campos contenteditable
@@ -440,6 +452,12 @@ export default function Page() {
     return sugestaoFoto(slide, slideAtual, total);
   }, [atual, slideAtual, total, edicoes, chaveAtual]);
 
+  // Tamanho da fonte (px no download 1080px) do slide aberto — mostrado nos
+  // controles pra dar pra identificar/comparar o tamanho slide a slide.
+  const ajAtual = ajustes[chaveAtual] ?? AJUSTES_PADRAO;
+  const tamTituloPx = Math.round(FONTE_BASE_1080.titulo * ajAtual.titulo);
+  const tamCorpoPx = Math.round(FONTE_BASE_1080.corpo * ajAtual.corpo);
+
   async function enviarImagem(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     e.target.value = ""; // permite reenviar o mesmo arquivo depois
@@ -634,8 +652,11 @@ export default function Page() {
     await new Promise((r) => setTimeout(r, 60));
     try {
       const html2canvas = (await import("html2canvas")).default;
+      // Escala que normaliza a saída para LARGURA_EXPORT (1080px) — o slide
+      // na tela tem largura variável, então ancoramos no padrão do Instagram
+      // pra garantir 1080×1080 / 1080×1350 nítidos em qualquer monitor.
       return await html2canvas(slideEl, {
-        scale: 3,
+        scale: LARGURA_EXPORT / w,
         useCORS: true,
         allowTaint: true,
         backgroundColor: null,
@@ -858,6 +879,15 @@ export default function Page() {
           <button className="aj-btn" onClick={() => ajustar("titulo", 0.08)}>
             A+
           </button>
+          <span
+            className="aj-size"
+            title="Tamanho do título no download (canvas de 1080px)"
+          >
+            <span className="aj-size-ico" aria-hidden>
+              A
+            </span>
+            {tamTituloPx}px
+          </span>
         </div>
         <div className="aj-grupo">
           <span className="aj-label">Corpo</span>
@@ -867,6 +897,15 @@ export default function Page() {
           <button className="aj-btn" onClick={() => ajustar("corpo", 0.08)}>
             a+
           </button>
+          <span
+            className="aj-size"
+            title="Tamanho do corpo no download (canvas de 1080px)"
+          >
+            <span className="aj-size-ico aj-size-ico--sm" aria-hidden>
+              a
+            </span>
+            {tamCorpoPx}px
+          </span>
         </div>
         <div className="aj-grupo">
           <span className="aj-label">Posição</span>
@@ -887,6 +926,12 @@ export default function Page() {
         >
           ↺ Texto original
         </button>
+        <p className="aj-dica">
+          📐 Ideal no feed (1080×1350): título <b>{FAIXA_IDEAL.titulo}</b> e
+          corpo <b>{FAIXA_IDEAL.corpo}</b>. O padrão aqui ({FONTE_BASE_1080.titulo}
+          px / {FONTE_BASE_1080.corpo}px) já cai na faixa — use A−/A+ pra afinar
+          por slide.
+        </p>
       </div>
 
       {/* FONTES */}

@@ -87,6 +87,120 @@ export const banco: Banco = {
         { tag: "Resumo", ic: "📌", h: "Resumindo:", a: "o básico ganha.", c: ["Sol cedo, proteína, movimento, sono.", "Menos café de muleta.", "Constância gera disposição."], foto: "Mesa da manhã: sol pela janela, ovos, copo d'água e tênis." },
         { tag: "CTA", ic: "🙌", h: "Vamos ter", a: "mais energia?", c: ["Salva pra montar sua rotina.", "Marca quem vive exausto.", "Me segue pra mais sobre vitalidade."], foto: "Você cheio de energia, braços pra cima, na luz da manhã." },
       ],
+      // ===== 6 slides · novos temas (gerados por IA do chat, 2026-06-10) =====
+      // Água / hidratação
+      [
+        { tag: "Gancho", ic: "💧", h: "Bebe pouca água?", a: "Seu corpo sente.", c: ["Dor de cabeça, cansaço e fome falsa muitas vezes são só sede.", "O pilar mais barato da saúde é o mais esquecido."], foto: "Um copo ou garrafa de água na mão, em close, com luz natural." },
+        { tag: "Erro", ic: "⚠️", h: "Esperar a sede", a: "é beber tarde demais.", c: ["Quando a sede chega, você já está desidratado.", "O corpo avisa atrasado, não na hora certa.", "Beba antes de sentir falta."], foto: "Uma garrafa de água vazia sobre a mesa de trabalho." },
+        { tag: "Estratégia", ic: "🚰", h: "Água na mão", a: "vira água na boca.", c: ["Deixe uma garrafa sempre à vista.", "O que está perto é o que você consome.", "Visível é metade do hábito."], foto: "Garrafa reutilizável cheia ao lado do computador." },
+        { tag: "Prática", ic: "🌅", h: "Comece o dia", a: "com um copo.", c: ["Antes do café, um copo de água.", "Você acorda desidratado de horas sem beber.", "Reidratar é o primeiro gesto do dia."], foto: "Um copo de água na mesa de cabeceira logo ao acordar." },
+        { tag: "Virada", ic: "✨", h: "Hidratar é", a: "energia de graça.", c: ["Não custa nada e muda disposição, pele e foco.", "Pequeno hábito, efeito no corpo todo.", "O básico bem feito vence suplemento."], foto: "Você bebendo água e respirando fundo, com disposição." },
+        { tag: "CTA", ic: "🙌", h: "Bora beber", a: "mais água?", c: ["Salva como lembrete diário.", "Marca quem vive esquecendo.", "Me segue pra mais sobre saúde simples."], foto: "Você sorrindo com a garrafa de água na mão." },
+      ],
+      // Resultado demora / paciência
+      [
+        { tag: "Gancho", ic: "⏳", h: "Sem resultado?", a: "Talvez seja cedo.", c: ["Você treina há semanas e cobra o corpo de meses.", "A verdade sobre o tempo que a mudança real leva."], foto: "Você no espelho da academia avaliando o progresso." },
+        { tag: "Mito", ic: "📉", h: "Resultado rápido", a: "some rápido.", c: ["O que muda em dias volta em dias.", "Corpo construído com pressa não se sustenta.", "Atalho é ilusão cara."], foto: "Calendário com várias semanas de treino marcadas." },
+        { tag: "Estratégia", ic: "📊", h: "Meça processo,", a: "não só espelho.", c: ["Foque em comparecer, dormir e comer bem.", "O resultado é consequência do hábito.", "Cuide da causa, o efeito vem."], foto: "Caderno de treino com a frequência da semana anotada." },
+        { tag: "Prática", ic: "📸", h: "Compare com", a: "você de antes.", c: ["Foto de hoje contra a de semanas atrás.", "O dia a dia esconde a evolução.", "A distância revela o quanto mudou."], foto: "Duas fotos suas lado a lado, antes e depois." },
+        { tag: "Virada", ic: "✨", h: "Constância vence", a: "intensidade.", c: ["Quem fica é quem chega.", "Resultado mora na repetição, não no pico.", "Confie no tempo do processo."], foto: "Você treinando tranquilo, no seu próprio ritmo." },
+        { tag: "CTA", ic: "🙌", h: "Bora confiar", a: "no processo?", c: ["Salva pra lembrar nos dias de ansiedade.", "Marca quem desiste cedo.", "Me segue pra mais sobre constância."], foto: "Você fazendo positivo, sereno, depois do treino." },
+      ],
+      // Dor nas costas / postura
+      [
+        { tag: "Gancho", ic: "🪑", h: "Dor nas costas?", a: "Olhe a cadeira.", c: ["Horas sentado torto cobram caro da coluna.", "Como aliviar sem virar paciente de consultório."], foto: "Você sentado torto na frente do computador." },
+        { tag: "Alerta", ic: "⚠️", h: "Postura ruim", a: "vira dor crônica.", c: ["O corpo aguenta, até não aguentar mais.", "Pequenos desvios o dia todo se acumulam.", "A conta chega depois."], foto: "Silhueta curvada sobre o celular, vista de lado." },
+        { tag: "Estratégia", ic: "🧍", h: "Ajuste a tela,", a: "alivie a coluna.", c: ["Topo da tela na altura dos olhos.", "Pés no chão, costas apoiadas.", "Ergonomia é remédio diário."], foto: "Estação de trabalho ajustada, tela na altura certa." },
+        { tag: "Prática", ic: "🤸", h: "Levante a cada", a: "50 minutos.", c: ["Um minuto em pé reseta a postura.", "Movimento curto destrava o corpo.", "Sentar menos já é tratar a dor."], foto: "Você se levantando pra alongar numa pausa." },
+        { tag: "Virada", ic: "✨", h: "Coluna saudável", a: "é base de tudo.", c: ["Ela te carrega o dia inteiro.", "Cuidar da postura cuida do humor também.", "Corpo alinhado, mente mais leve."], foto: "Você em pé, postura ereta, respirando." },
+        { tag: "CTA", ic: "🙌", h: "Bora cuidar", a: "da coluna?", c: ["Salva pra aplicar hoje no trabalho.", "Marca quem vive com dor nas costas.", "Me segue pra mais sobre corpo saudável."], foto: "Você alongando as costas, aliviado." },
+      ],
+      // Mobilidade / corpo travado
+      [
+        { tag: "Gancho", ic: "🦵", h: "Corpo travado?", a: "Falta mover.", c: ["Levantar do chão virou tarefa difícil?", "Mobilidade é a saúde que quase ninguém treina."], foto: "Você tentando se abaixar com o corpo rígido." },
+        { tag: "Erro", ic: "⚠️", h: "Só força", a: "sem amplitude.", c: ["Músculo forte e articulação travada é desequilíbrio.", "Mover bem importa tanto quanto levantar peso.", "Rigidez hoje é lesão amanhã."], foto: "Close de um joelho ou ombro durante o movimento." },
+        { tag: "Estratégia", ic: "🧘", h: "5 minutos", a: "de mobilidade.", c: ["Quadril, ombro e tornozelo todo dia.", "Pouco e constante destrava o corpo.", "Amplitude se recupera com prática."], foto: "Você fazendo mobilidade de quadril no chão." },
+        { tag: "Prática", ic: "🌀", h: "Mexa o que", a: "você não usa.", c: ["Gire as articulações que ficam paradas o dia todo.", "O corpo enferruja no que não move.", "Use pra não perder."], foto: "Você girando os ombros numa pausa em casa." },
+        { tag: "Virada", ic: "✨", h: "Mover bem", a: "é envelhecer leve.", c: ["Mobilidade hoje é autonomia lá na frente.", "Corpo que dobra é corpo que dura.", "Cuide do movimento, não só do músculo."], foto: "Você se agachando com facilidade, leve." },
+        { tag: "CTA", ic: "🙌", h: "Bora destravar", a: "o corpo?", c: ["Salva pra fazer todo dia.", "Marca quem vive duro.", "Me segue pra mais sobre corpo funcional."], foto: "Você sorrindo após alongar, soltinho." },
+      ],
+      // Açúcar / vício em doce
+      [
+        { tag: "Gancho", ic: "🍫", h: "Vício em doce?", a: "Não é fraqueza.", c: ["O açúcar foi feito pra você querer sempre mais.", "Como sair da montanha-russa sem sofrer."], foto: "Um doce na mão, em close, com olhar de desejo." },
+        { tag: "Mito", ic: "⚠️", h: "Cortar tudo", a: "de uma vez.", c: ["Proibição total gera compulsão depois.", "O corpo briga contra o radicalismo.", "Menos drama, mais constância."], foto: "Um pote de doces guardado no armário." },
+        { tag: "Estratégia", ic: "🍓", h: "Troque, não", a: "só elimine.", c: ["Fruta, castanha ou cacau no lugar do industrializado.", "Dê ao corpo um doce de verdade.", "Substituir é mais fácil que resistir."], foto: "Uma fruta ou punhado de castanhas sobre a mesa." },
+        { tag: "Prática", ic: "⏰", h: "Espere 10", a: "minutos.", c: ["A vontade de doce vem em onda e passa.", "Beba água e ocupe a mente um pouco.", "Adiar quebra o impulso."], foto: "Relógio marcando 10 minutos ao lado de uma fruta." },
+        { tag: "Virada", ic: "✨", h: "Menos açúcar,", a: "mais energia.", c: ["Some o pico e a queda do dia inteiro.", "O paladar reaprende a gostar do simples.", "Liberdade é não depender do doce."], foto: "Você disposto, sem o cansaço que o açúcar deixa." },
+        { tag: "CTA", ic: "🙌", h: "Bora domar", a: "o açúcar?", c: ["Salva pra lembrar na próxima vontade.", "Marca quem é viciado em doce.", "Me segue pra mais sobre alimentação real."], foto: "Você sorrindo segurando uma fruta no lugar do doce." },
+      ],
+      // ===== 7 slides · novos temas (2026-06-10) =====
+      // Água (7)
+      [
+        { tag: "Gancho", ic: "💧", h: "Bebe pouca água?", a: "Seu corpo sente.", c: ["Dor de cabeça, cansaço e fome falsa muitas vezes são só sede.", "O pilar mais barato da saúde é o mais esquecido."], foto: "Um copo ou garrafa de água na mão, em close, com luz natural." },
+        { tag: "Erro", ic: "⚠️", h: "Esperar a sede", a: "é beber tarde demais.", c: ["Quando a sede chega, você já está desidratado.", "O corpo avisa atrasado.", "Beba antes de sentir falta."], foto: "Uma garrafa de água vazia sobre a mesa." },
+        { tag: "Estratégia", ic: "🚰", h: "Água na mão", a: "vira água na boca.", c: ["Deixe uma garrafa sempre à vista.", "O que está perto é o que se consome.", "Visível é metade do hábito."], foto: "Garrafa reutilizável cheia ao lado do computador." },
+        { tag: "Prática", ic: "🌅", h: "Comece o dia", a: "com um copo.", c: ["Antes do café, um copo de água.", "Você acorda desidratado de horas sem beber.", "Reidratar é o primeiro gesto do dia."], foto: "Um copo de água na mesa de cabeceira ao acordar." },
+        { tag: "Aprofundamento", ic: "☕", h: "Café e álcool", a: "desidratam.", c: ["Cada xícara pede um copo de água extra.", "Eles tiram mais do que repõem.", "Compense pra não ficar no negativo."], foto: "Uma xícara de café ao lado de um copo de água." },
+        { tag: "Virada", ic: "✨", h: "Hidratar é", a: "energia de graça.", c: ["Muda disposição, pele e foco.", "Pequeno hábito, efeito no corpo todo.", "O básico vence suplemento."], foto: "Você bebendo água e respirando fundo, disposto." },
+        { tag: "CTA", ic: "🙌", h: "Bora beber", a: "mais água?", c: ["Salva como lembrete diário.", "Marca quem vive esquecendo.", "Me segue pra mais sobre saúde simples."], foto: "Você sorrindo com a garrafa de água na mão." },
+      ],
+      // Postura / costas (7)
+      [
+        { tag: "Gancho", ic: "🪑", h: "Dor nas costas?", a: "Olhe a cadeira.", c: ["Horas sentado torto cobram caro da coluna.", "Como aliviar sem virar paciente de consultório."], foto: "Você sentado torto na frente do computador." },
+        { tag: "Alerta", ic: "⚠️", h: "Postura ruim", a: "vira dor crônica.", c: ["O corpo aguenta, até não aguentar.", "Desvios pequenos se acumulam.", "A conta chega depois."], foto: "Silhueta curvada sobre o celular, de lado." },
+        { tag: "Estratégia", ic: "🧍", h: "Ajuste a tela,", a: "alivie a coluna.", c: ["Topo da tela na altura dos olhos.", "Pés no chão, costas apoiadas.", "Ergonomia é remédio diário."], foto: "Estação de trabalho ajustada, tela na altura certa." },
+        { tag: "Prática", ic: "🤸", h: "Levante a cada", a: "50 minutos.", c: ["Um minuto em pé reseta a postura.", "Movimento curto destrava.", "Sentar menos já trata a dor."], foto: "Você se levantando pra alongar numa pausa." },
+        { tag: "Aprofundamento", ic: "💪", h: "Costas fortes", a: "doem menos.", c: ["Músculo fraco deixa a coluna sozinha.", "Fortaleça core e dorsais aos poucos.", "Força é proteção."], foto: "Você fazendo um exercício leve de costas." },
+        { tag: "Virada", ic: "✨", h: "Coluna saudável", a: "é base de tudo.", c: ["Ela te carrega o dia inteiro.", "Postura cuidada melhora o humor.", "Corpo alinhado, mente leve."], foto: "Você em pé, postura ereta, respirando." },
+        { tag: "CTA", ic: "🙌", h: "Bora cuidar", a: "da coluna?", c: ["Salva pra aplicar hoje no trabalho.", "Marca quem vive com dor nas costas.", "Me segue pra mais sobre corpo saudável."], foto: "Você alongando as costas, aliviado." },
+      ],
+      // Açúcar (7)
+      [
+        { tag: "Gancho", ic: "🍫", h: "Vício em doce?", a: "Não é fraqueza.", c: ["O açúcar foi feito pra você querer sempre mais.", "Como sair da montanha-russa sem sofrer."], foto: "Um doce na mão, em close, com olhar de desejo." },
+        { tag: "Mito", ic: "⚠️", h: "Cortar tudo", a: "de uma vez.", c: ["Proibição total gera compulsão.", "O corpo briga com o radicalismo.", "Menos drama, mais constância."], foto: "Um pote de doces guardado no armário." },
+        { tag: "Estratégia", ic: "🍓", h: "Troque, não", a: "só elimine.", c: ["Fruta, castanha ou cacau no lugar.", "Dê ao corpo um doce de verdade.", "Substituir é mais fácil que resistir."], foto: "Uma fruta ou punhado de castanhas sobre a mesa." },
+        { tag: "Prática", ic: "⏰", h: "Espere 10", a: "minutos.", c: ["A vontade vem em onda e passa.", "Beba água e ocupe a mente.", "Adiar quebra o impulso."], foto: "Relógio marcando 10 minutos ao lado de uma fruta." },
+        { tag: "Aprofundamento", ic: "🏷️", h: "Açúcar tem", a: "muitos nomes.", c: ["Xarope, maltodextrina, dextrose: tudo é açúcar.", "Ele se esconde até no salgado.", "Ler o rótulo abre os olhos."], foto: "Um rótulo de produto sendo lido de perto." },
+        { tag: "Virada", ic: "✨", h: "Menos açúcar,", a: "mais energia.", c: ["Some o pico e a queda do dia.", "O paladar reaprende o simples.", "Liberdade é não depender do doce."], foto: "Você disposto, sem o cansaço do açúcar." },
+        { tag: "CTA", ic: "🙌", h: "Bora domar", a: "o açúcar?", c: ["Salva pra próxima vontade.", "Marca quem é viciado em doce.", "Me segue pra mais sobre alimentação real."], foto: "Você com uma fruta no lugar do doce." },
+      ],
+      // ===== 9 slides · novos temas (2026-06-10) =====
+      // Água (9)
+      [
+        { tag: "Gancho", ic: "💧", h: "Bebe pouca água?", a: "Seu corpo sente.", c: ["Cansaço, dor de cabeça e fome falsa às vezes são só sede.", "O hábito mais barato é o mais ignorado."], foto: "Um copo de água na mão, em close, com luz natural." },
+        { tag: "Contexto", ic: "🧠", h: "Você é", a: "feito de água.", c: ["A maior parte do corpo depende dela pra funcionar.", "Falta pouca já derruba foco e energia.", "Hidratar é manutenção básica."], foto: "Um copo de água contra a luz da janela." },
+        { tag: "Erro", ic: "⚠️", h: "Esperar a sede", a: "é beber tarde.", c: ["Quando ela chega, você já desidratou.", "O corpo avisa atrasado.", "Beba antes de sentir falta."], foto: "Uma garrafa de água vazia na mesa." },
+        { tag: "Estratégia", ic: "🚰", h: "Deixe a garrafa", a: "à vista.", c: ["O que está perto é o que se consome.", "Visível é metade do hábito.", "Facilite o caminho da água."], foto: "Garrafa reutilizável ao lado do computador." },
+        { tag: "Prática", ic: "🌅", h: "Um copo", a: "ao acordar.", c: ["Você passou horas sem beber dormindo.", "Reidratar é o primeiro gesto do dia.", "Comece hidratado."], foto: "Um copo de água na cabeceira ao acordar." },
+        { tag: "Exemplo", ic: "☕", h: "Café pede", a: "água junto.", c: ["Cada xícara desidrata um pouco.", "Um copo de água por café equilibra.", "Reponha o que ele tira."], foto: "Café ao lado de um copo de água." },
+        { tag: "Virada", ic: "✨", h: "Hidratar é", a: "energia de graça.", c: ["Muda disposição, pele e foco.", "Efeito no corpo todo, custo zero.", "O básico vence suplemento."], foto: "Você disposto, bebendo água." },
+        { tag: "Resumo", ic: "📌", h: "Resumindo:", a: "beba sempre.", c: ["Garrafa à vista, copo ao acordar.", "Compense café e álcool.", "Não espere a sede."], foto: "Garrafa cheia pronta pra usar." },
+        { tag: "CTA", ic: "🙌", h: "Bora beber", a: "mais água?", c: ["Salva como lembrete diário.", "Marca quem esquece de beber.", "Me segue pra mais sobre saúde simples."], foto: "Você sorrindo com a garrafa de água." },
+      ],
+      // Postura / costas (9)
+      [
+        { tag: "Gancho", ic: "🪑", h: "Dor nas costas?", a: "Olhe a cadeira.", c: ["Horas sentado torto cobram caro da coluna.", "Como aliviar sem virar paciente."], foto: "Você sentado torto na frente do computador." },
+        { tag: "Contexto", ic: "🌍", h: "Sentar demais", a: "é o novo vilão.", c: ["O corpo não foi feito pra 8 horas parado.", "A coluna sofre calada o dia todo.", "Não é idade, é hábito."], foto: "Uma cadeira de escritório vista de cima." },
+        { tag: "Erro", ic: "⚠️", h: "Postura ruim", a: "vira dor crônica.", c: ["O corpo aguenta, até não aguentar.", "Desvios pequenos se acumulam.", "A conta chega depois."], foto: "Silhueta curvada sobre o celular." },
+        { tag: "Estratégia", ic: "🧍", h: "Ajuste a tela,", a: "alivie a coluna.", c: ["Topo da tela na altura dos olhos.", "Pés no chão, costas apoiadas.", "Ergonomia é remédio diário."], foto: "Estação de trabalho ajustada." },
+        { tag: "Prática", ic: "🤸", h: "Levante a cada", a: "50 minutos.", c: ["Um minuto em pé reseta a postura.", "Movimento curto destrava.", "Sentar menos já trata a dor."], foto: "Você levantando pra alongar numa pausa." },
+        { tag: "Exemplo", ic: "💪", h: "Fortaleça", a: "o que sustenta.", c: ["Core e costas seguram a coluna.", "Comece com exercícios leves.", "Força é proteção diária."], foto: "Você num exercício leve de core." },
+        { tag: "Virada", ic: "✨", h: "Coluna saudável", a: "é base de tudo.", c: ["Ela te carrega o dia inteiro.", "Postura cuidada melhora o humor.", "Corpo alinhado, mente leve."], foto: "Você ereto, respirando." },
+        { tag: "Resumo", ic: "📌", h: "Resumindo:", a: "mexa e ajuste.", c: ["Tela na altura, costas apoiadas.", "Levante a cada 50 minutos.", "Fortaleça core e costas."], foto: "Alongamento de costas numa pausa." },
+        { tag: "CTA", ic: "🙌", h: "Bora cuidar", a: "da coluna?", c: ["Salva pra aplicar hoje.", "Marca quem vive com dor.", "Me segue pra mais sobre corpo saudável."], foto: "Você alongando as costas, aliviado." },
+      ],
+      // Açúcar (9)
+      [
+        { tag: "Gancho", ic: "🍫", h: "Vício em doce?", a: "Não é fraqueza.", c: ["O açúcar foi feito pra você querer sempre mais.", "Como sair da montanha-russa sem sofrer."], foto: "Um doce na mão, em close, com olhar de desejo." },
+        { tag: "Contexto", ic: "🧠", h: "Doce ativa", a: "recompensa.", c: ["O cérebro pede mais a cada dose.", "Não é falta de força, é química.", "Entender já tira a culpa."], foto: "Doces coloridos sobre a mesa." },
+        { tag: "Mito", ic: "⚠️", h: "Cortar tudo", a: "de uma vez.", c: ["Proibição total gera compulsão.", "O corpo briga com o radicalismo.", "Menos drama, mais constância."], foto: "Um pote de doces guardado no armário." },
+        { tag: "Estratégia", ic: "🍓", h: "Troque, não", a: "só elimine.", c: ["Fruta, castanha ou cacau no lugar.", "Dê ao corpo um doce de verdade.", "Substituir é mais fácil que resistir."], foto: "Uma fruta ou castanhas sobre a mesa." },
+        { tag: "Prática", ic: "⏰", h: "Espere 10", a: "minutos.", c: ["A vontade vem em onda e passa.", "Beba água e ocupe a mente.", "Adiar quebra o impulso."], foto: "Relógio de 10 minutos ao lado de uma fruta." },
+        { tag: "Exemplo", ic: "🏷️", h: "Leia o", a: "rótulo.", c: ["Açúcar se esconde com vários nomes.", "Está até no que parece salgado.", "O rótulo conta a verdade."], foto: "Um rótulo sendo lido no mercado." },
+        { tag: "Virada", ic: "✨", h: "Menos açúcar,", a: "mais energia.", c: ["Some o pico e a queda do dia.", "O paladar reaprende o simples.", "Liberdade é não depender do doce."], foto: "Você disposto, sem o cansaço do açúcar." },
+        { tag: "Resumo", ic: "📌", h: "Resumindo:", a: "reduza com calma.", c: ["Troque por doce de verdade.", "Espere a vontade passar.", "Leia rótulos, sem radicalismo."], foto: "Fruta e castanhas como lanche." },
+        { tag: "CTA", ic: "🙌", h: "Bora domar", a: "o açúcar?", c: ["Salva pra próxima vontade.", "Marca quem é viciado em doce.", "Me segue pra mais sobre alimentação real."], foto: "Você com uma fruta no lugar do doce." },
+      ],
     ],
   },
   mente: {
@@ -161,6 +275,52 @@ export const banco: Banco = {
         { tag: "Resumo", ic: "📌", h: "Resumindo:", a: "ponha limites.", c: ["Diga não sem culpa.", "Tire o peso da cabeça, peça ajuda.", "Você primeiro, sempre."], foto: "Você de ombros relaxados, com a agenda mais leve e aliviado." },
         { tag: "CTA", ic: "🙌", h: "Vamos", a: "aliviar o peso?", c: ["Salva pra lembrar nos dias pesados.", "Marca quem carrega tudo sozinho.", "Me segue pra mais sobre equilíbrio."], foto: "Você com expressão leve, respirando aliviado, em paz." },
       ],
+      // ===== 6 slides · novos temas (gerados por IA do chat, 2026-06-10) =====
+      // Notícias / doomscrolling
+      [
+        { tag: "Gancho", ic: "📰", h: "Ansioso com", a: "o noticiário?", c: ["Você rola tragédia atrás de tragédia e se sente pior.", "Como se informar sem se intoxicar."], foto: "Você no sofá com cara de tenso olhando o celular." },
+        { tag: "Causa", ic: "🌀", h: "Sua mente não", a: "foi feita pra isso.", c: ["Ela absorve o caos do mundo inteiro de uma vez.", "Excesso de notícia ruim vira angústia.", "Não é fraqueza, é sobrecarga."], foto: "Tela do celular cheia de manchetes negativas." },
+        { tag: "Estratégia", ic: "⏱️", h: "Tenha hora", a: "pra se informar.", c: ["Escolha um momento curto do dia.", "Fora dele, o celular descansa do noticiário.", "Limite protege sua paz."], foto: "Relógio ao lado do celular com o feed fechado." },
+        { tag: "Prática", ic: "📵", h: "Notícia não", a: "é café da manhã.", c: ["Não comece nem termine o dia no feed.", "Os primeiros e últimos minutos são seus.", "Proteja as bordas do dia."], foto: "Mesa de manhã sem celular, só café e luz natural." },
+        { tag: "Virada", ic: "✨", h: "Informado sim,", a: "intoxicado não.", c: ["Você pode se importar sem se afundar.", "Filtrar não é alienação, é saúde.", "Cuide da mente que consome o mundo."], foto: "Você respirando aliviado, com o celular guardado." },
+        { tag: "CTA", ic: "🙌", h: "Bora filtrar", a: "o que entra?", c: ["Salva pra lembrar amanhã cedo.", "Marca quem vive no doomscroll.", "Me segue pra mais sobre mente em paz."], foto: "Você tranquilo, longe das telas." },
+      ],
+      // Autocrítica / voz interna dura
+      [
+        { tag: "Gancho", ic: "🗣️", h: "Seu pior crítico", a: "é você?", c: ["A voz na sua cabeça fala o que você não diria a ninguém.", "Como baixar o volume da autocobrança."], foto: "Você pensativo, olhar pesado, mão na testa." },
+        { tag: "Verdade", ic: "🔍", h: "Você não fala", a: "isso a um amigo.", c: ["Com os outros você é gentil, consigo é cruel.", "Essa dureza não te faz melhor, te paralisa.", "Cobrança não é o mesmo que cuidado."], foto: "Seu reflexo no espelho com um olhar sério." },
+        { tag: "Estratégia", ic: "🤝", h: "Fale consigo", a: "como com quem ama.", c: ["Troque o tom de juiz pelo de aliado.", "Erro pede ajuste, não punição.", "Gentileza interna também é disciplina."], foto: "Você com a mão no peito, num gesto de acolhimento." },
+        { tag: "Prática", ic: "📝", h: "Anote a frase,", a: "questione ela.", c: ["Escreva o que a voz disse.", "Pergunte: isso é verdade ou medo?", "No papel, o exagero aparece."], foto: "Caderno com um pensamento anotado e contestado." },
+        { tag: "Virada", ic: "✨", h: "Você precisa", a: "de aliado, não juiz.", c: ["Quem se trata bem chega mais longe.", "A mudança nasce do respeito, não do ódio.", "Ser seu amigo é o começo."], foto: "Você com expressão mais leve, em paz consigo." },
+        { tag: "CTA", ic: "🙌", h: "Bora baixar", a: "a autocrítica?", c: ["Salva pra reler nos dias duros.", "Marca quem se cobra demais.", "Me segue pra mais sobre mente equilibrada."], foto: "Você sorrindo de leve, sereno." },
+      ],
+      // Medo do julgamento
+      [
+        { tag: "Gancho", ic: "👀", h: "Medo do que", a: "vão pensar?", c: ["Você se segura o tempo todo por causa da opinião alheia.", "Como viver mais livre do olhar dos outros."], foto: "Você hesitando, contido, em meio a outras pessoas." },
+        { tag: "Verdade", ic: "🌀", h: "Ninguém pensa", a: "tanto em você.", c: ["Cada um está ocupado com a própria vida.", "O palco que você imagina quase não existe.", "A plateia está olhando pra si mesma."], foto: "Uma multidão distraída, cada um no seu mundo." },
+        { tag: "Estratégia", ic: "🎯", h: "Pergunte:", a: "de quem é a vida?", c: ["A conta de viver pequeno é só sua.", "Aplauso alheio não preenche vazio.", "Escolha o que é seu, não o que cabe."], foto: "Você decidindo algo com a mão no peito, firme." },
+        { tag: "Prática", ic: "👣", h: "Faça pequeno,", a: "faça mesmo assim.", c: ["Aja com o medo presente, sem esperar ele sumir.", "Cada passo encolhe o julgamento.", "Coragem é movimento, não ausência de medo."], foto: "Você dando o primeiro passo, decidido." },
+        { tag: "Virada", ic: "✨", h: "Livre do olhar,", a: "livre pra ser.", c: ["Quem aceita ser julgado vive maior.", "Sua vida não cabe na opinião dos outros.", "Solte a plateia e siga."], foto: "Você caminhando leve, sem olhar pra trás." },
+        { tag: "CTA", ic: "🙌", h: "Bora viver", a: "mais livre?", c: ["Salva pra lembrar na próxima hesitação.", "Marca quem vive preso ao julgamento.", "Me segue pra mais sobre liberdade interior."], foto: "Você de braços abertos, leve e livre." },
+      ],
+      // Indecisão
+      [
+        { tag: "Gancho", ic: "🔀", h: "Trava na hora", a: "de decidir?", c: ["Você analisa tanto que nunca escolhe.", "Como sair da paralisia das opções."], foto: "Você parado diante de duas direções, indeciso." },
+        { tag: "Causa", ic: "⚠️", h: "Esperar certeza", a: "é esperar pra sempre.", c: ["Nenhuma escolha vem com garantia.", "O medo de errar congela mais que o erro.", "Decidir é abrir mão de algo, sempre."], foto: "Muitas opções espalhadas sobre a mesa." },
+        { tag: "Estratégia", ic: "⚖️", h: "Boa o bastante", a: "vence perfeita.", c: ["Pergunte: qual escolha te aproxima do que importa?", "Decisão alinhada ao valor traz paz.", "Avance com 80% de certeza."], foto: "Você pesando uma decisão com calma, lista na mão." },
+        { tag: "Prática", ic: "⏱️", h: "Dê um prazo", a: "pra escolher.", c: ["Decisões pequenas: decida em minutos.", "Tempo demais só alimenta a dúvida.", "O prazo força a clareza."], foto: "Relógio ao lado de uma anotação de prós e contras." },
+        { tag: "Virada", ic: "✨", h: "Decidir é", a: "seguir em frente.", c: ["Quem escolhe aprende; quem trava, fica.", "Errar e ajustar ensina mais que esperar.", "Movimento gera resposta."], foto: "Você seguindo por um caminho, decisão tomada." },
+        { tag: "CTA", ic: "🙌", h: "Bora destravar", a: "as decisões?", c: ["Salva pra usar na próxima dúvida.", "Marca quem vive em cima do muro.", "Me segue pra mais sobre clareza mental."], foto: "Você caminhando firme, escolha feita." },
+      ],
+      // Descanso com culpa
+      [
+        { tag: "Gancho", ic: "🛋️", h: "Descansa e", a: "sente culpa?", c: ["Você para, mas a cabeça segue cobrando produtividade.", "Como descansar de verdade sem peso."], foto: "Você deitado no sofá, mas com o olhar tenso." },
+        { tag: "Erro", ic: "⚠️", h: "Ocupado não", a: "é produtivo.", c: ["Estar sempre fazendo vira fuga de si.", "Descanso não é prêmio, é necessidade.", "Quem não para, quebra."], foto: "Uma agenda lotada, sem nenhum espaço livre." },
+        { tag: "Estratégia", ic: "🌿", h: "Descanso é", a: "parte do trabalho.", c: ["A mente boa vem do repouso, não do excesso.", "Pausa recarrega o que a pressa gasta.", "Parar também é avançar."], foto: "Você relaxando ao ar livre, sem celular." },
+        { tag: "Prática", ic: "📵", h: "Descanse sem", a: "segunda tela.", c: ["Descanso com notificação não descansa.", "Escolha algo que recarrega, não distrai.", "Presença no ócio também cura."], foto: "Você lendo ou olhando a janela, sem telas." },
+        { tag: "Virada", ic: "✨", h: "Você merece", a: "parar sem culpa.", c: ["Você não é uma máquina de tarefas.", "Repouso é respeito por quem você é.", "Cuidar de si sustenta todo o resto."], foto: "Você de olhos fechados, respirando em paz." },
+        { tag: "CTA", ic: "🙌", h: "Bora descansar", a: "de verdade?", c: ["Salva pra lembrar no próximo cansaço.", "Marca quem descansa com culpa.", "Me segue pra mais sobre equilíbrio."], foto: "Você relaxado, leve sorriso, sem pressa." },
+      ],
     ],
   },
   essencia: {
@@ -234,6 +394,52 @@ export const banco: Banco = {
         { tag: "Virada", ic: "✨", h: "O que você", a: "agradece, cresce.", c: ["A atenção alimenta o que você olha.", "Ver o bom atrai mais do bom.", "Gratidão é abundância em prática."], foto: "Você sorrindo, enxergando o lado bom da vida ao redor." },
         { tag: "Resumo", ic: "📌", h: "Resumindo:", a: "treine o olhar.", c: ["Três gratidões toda manhã.", "Agradeça em voz alta.", "Até no dia ruim, ache uma."], foto: "Caderno de gratidão aberto, mostrando a rotina diária." },
         { tag: "CTA", ic: "🙌", h: "Vamos", a: "agradecer mais?", c: ["Salva como lembrete diário.", "Marca quem só vê a falta.", "Me segue pra mais sobre essência e gratidão."], foto: "Você de mãos no peito, grato, com um sorriso leve." },
+      ],
+      // ===== 6 slides · novos temas (gerados por IA do chat, 2026-06-10) =====
+      // Comparação / contentamento
+      [
+        { tag: "Gancho", ic: "🪞", h: "A vida do outro", a: "parece melhor?", c: ["Você olha pro lado e sente que está atrasado.", "Como reencontrar o contentamento com o que é seu."], foto: "Você observando a vida alheia no celular, pensativo." },
+        { tag: "Verdade", ic: "🌑", h: "Você compara", a: "o avesso com a vitrine.", c: ["Vê o melhor do outro e o seu pior.", "Comparação assim nunca te deixa em paz.", "A vitrine esconde os bastidores."], foto: "Uma vitrine iluminada ao lado de uma cena comum do dia." },
+        { tag: "Reflexão", ic: "🌱", h: "O que você", a: "já tem?", c: ["Olhe pra dentro antes de olhar pro lado.", "Existe abundância que a pressa não vê.", "Gratidão é o antídoto da inveja."], foto: "Você contemplando algo simples e seu, com calma." },
+        { tag: "Prática", ic: "🙏", h: "Nomeie três", a: "bênçãos suas.", c: ["Toda manhã, reconheça o que já é bom.", "O olhar treina pra ver o que tem.", "O que você agradece, floresce."], foto: "Caderno de gratidão com três itens e um café ao lado." },
+        { tag: "Virada", ic: "✨", h: "Sua jornada", a: "é só sua.", c: ["Ninguém tem seu tempo nem seu ponto de partida.", "Florescer fora de hora não existe.", "Cuide do seu jardim."], foto: "Você caminhando seu próprio caminho, sereno." },
+        { tag: "CTA", ic: "🙌", h: "Bora se", a: "contentar?", c: ["Salva pra reler nos dias de comparação.", "Marca quem vive olhando pro lado.", "Me segue pra mais sobre paz interior."], foto: "Você em paz, grato, com um leve sorriso." },
+      ],
+      // Pressa / desacelerar
+      [
+        { tag: "Gancho", ic: "⏩", h: "Por que tanta", a: "pressa?", c: ["A vida passa enquanto você corre pro próximo.", "Como desacelerar e voltar a sentir o agora."], foto: "Você apressado, com tudo ao redor borrado." },
+        { tag: "Verdade", ic: "🌑", h: "Correr não", a: "é viver.", c: ["Você chega rápido, mas não chega presente.", "A pressa rouba o sabor de tudo.", "Velocidade não é o mesmo que sentido."], foto: "Um relógio acelerado e mãos tensas." },
+        { tag: "Prática", ic: "🌬️", h: "Respire antes", a: "de começar.", c: ["Três respirações lentas reorganizam o corpo.", "O agora só cabe quando você desacelera.", "Pausa breve, presença inteira."], foto: "Você de olhos fechados, respirando devagar." },
+        { tag: "Reflexão", ic: "🚶", h: "Faça uma coisa", a: "por vez.", c: ["Comendo, coma. Andando, ande.", "Presença plena transforma o comum em sagrado.", "A vida inteira mora nos detalhes."], foto: "Você atento a um único gesto simples do dia." },
+        { tag: "Virada", ic: "✨", h: "Devagar também", a: "é chegar.", c: ["Quem desacelera enxerga o caminho.", "Sentido não tem atalho.", "O agora é o único lugar onde se vive."], foto: "Você caminhando sem pressa, observando o redor." },
+        { tag: "CTA", ic: "🙌", h: "Bora", a: "desacelerar?", c: ["Salva como lembrete diário.", "Marca quem vive correndo.", "Me segue pra mais sobre presença."], foto: "Você respirando o momento, em paz." },
+      ],
+      // Esperança em tempos difíceis
+      [
+        { tag: "Gancho", ic: "🌧️", h: "Tá tudo", a: "desabando?", c: ["Tem fases em que parece que nada dá certo.", "Como manter a esperança sem negar a dor."], foto: "Você olhando a chuva pela janela, pensativo." },
+        { tag: "Verdade", ic: "🌑", h: "A tempestade", a: "não é o fim.", c: ["Toda estação difícil também passa.", "O fundo do poço tem chão pra te apoiar.", "Resistir já é um tipo de vitória."], foto: "Um céu carregado começando a abrir no horizonte." },
+        { tag: "Prática", ic: "🌱", h: "Cuide do", a: "próximo passo.", c: ["Não resolva a vida toda hoje.", "Faça só o que cabe neste dia.", "Um passo de cada vez sustenta a travessia."], foto: "Um pé dando um passo num caminho difícil." },
+        { tag: "Reflexão", ic: "🤲", h: "Você não", a: "está sozinho.", c: ["Pedir ajuda não te diminui.", "Dividir o peso já alivia a caminhada.", "Gente forte também se apoia."], foto: "Uma mão estendida ajudando outra." },
+        { tag: "Virada", ic: "✨", h: "Depois da noite", a: "vem o dia.", c: ["O que te quebra também pode te ensinar.", "Esperança é escolher continuar.", "A luz volta pra quem persiste."], foto: "O sol nascendo depois de uma noite escura." },
+        { tag: "CTA", ic: "🙌", h: "Bora seguir", a: "com fé?", c: ["Salva pra reler nos dias difíceis.", "Marca quem precisa de esperança hoje.", "Me segue pra mais sobre força interior."], foto: "Você olhando o horizonte aberto, esperançoso." },
+      ],
+      // Generosidade / dar sem esperar
+      [
+        { tag: "Gancho", ic: "🤲", h: "Só pensa em", a: "receber?", c: ["A vida fica pequena quando gira só em torno de si.", "O que muda quando você dá sem esperar troca."], foto: "Mãos abertas num gesto de oferecer algo." },
+        { tag: "Verdade", ic: "🌑", h: "Dar enche", a: "quem dá.", c: ["A generosidade volta de formas que você não controla.", "Quem só guarda, empobrece por dentro.", "Servir dá sentido ao que se faz."], foto: "Você entregando algo a alguém, com cuidado." },
+        { tag: "Prática", ic: "🌱", h: "Faça um bem", a: "hoje, anônimo.", c: ["Um gesto pequeno, sem plateia.", "Ajude sem postar, sem cobrar retorno.", "O bem secreto transforma quem faz."], foto: "Um gesto discreto de ajuda, sem ninguém vendo." },
+        { tag: "Reflexão", ic: "💛", h: "Generosidade", a: "não é dinheiro.", c: ["Tempo, escuta e presença também são doação.", "Às vezes o que falta ao outro é atenção.", "Doar é estar disponível."], foto: "Você ouvindo alguém com atenção plena." },
+        { tag: "Virada", ic: "✨", h: "Quem serve", a: "encontra sentido.", c: ["O vazio diminui quando você olha pra fora.", "Propósito aponta pro próximo, não pro espelho.", "Amor em prática é a maior entrega."], foto: "Você abraçando ou ajudando alguém, sorrindo." },
+        { tag: "CTA", ic: "🙌", h: "Bora", a: "servir mais?", c: ["Salva pra lembrar de doar hoje.", "Marca quem tem um coração generoso.", "Me segue pra mais sobre propósito."], foto: "Mãos dadas, num gesto de cuidado e entrega." },
+      ],
+      // Aceitação / soltar o controle
+      [
+        { tag: "Gancho", ic: "🎛️", h: "Quer controlar", a: "tudo?", c: ["Tentar segurar cada detalhe esgota qualquer um.", "Como achar paz no que não depende de você."], foto: "Você tenso, tentando segurar coisas demais." },
+        { tag: "Verdade", ic: "🌑", h: "Controle é", a: "ilusão.", c: ["Boa parte da vida não está nas suas mãos.", "Lutar contra o incontrolável só cansa.", "Aceitar não é desistir, é parar de sofrer."], foto: "Mãos tentando segurar areia escorrendo." },
+        { tag: "Prática", ic: "🙏", h: "Separe o que", a: "depende de você.", c: ["Aja no que está no seu alcance.", "Entregue o resto, solte a tentativa.", "Foco na sua parte, paz no resto."], foto: "Você de mãos abertas, entregando o controle." },
+        { tag: "Reflexão", ic: "🌬️", h: "Confiar", a: "alivia o peso.", c: ["Você não precisa carregar o mundo.", "Soltar é descanso, não derrota.", "Paz nasce da confiança."], foto: "Você respirando fundo, com os ombros relaxando." },
+        { tag: "Virada", ic: "✨", h: "Soltar é", a: "ganhar leveza.", c: ["O que é seu encontra o caminho.", "Menos controle, mais presença.", "A vida flui melhor sem o punho fechado."], foto: "Você sereno, olhar tranquilo no horizonte." },
+        { tag: "CTA", ic: "🙌", h: "Bora", a: "soltar o controle?", c: ["Salva pra lembrar nos dias tensos.", "Marca quem quer controlar tudo.", "Me segue pra mais sobre paz interior."], foto: "Você de braços abertos, leve e em paz." },
       ],
     ],
   },

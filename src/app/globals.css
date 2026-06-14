@@ -447,6 +447,41 @@ body {
   font-weight: 600;
 }
 
+/* ===== DESTAQUE NO CORPO ===== */
+.destaque-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: #141414;
+  border: 1px solid #242424;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.destaque-acoes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.destaque-btn {
+  width: auto;
+  padding: 0 12px;
+  font-size: 12px;
+}
+/* Aplicado dentro do corpo do slide (cor de destaque + negrito). */
+.slide-corpo .destaque {
+  color: var(--cor-acento);
+  font-weight: 700;
+}
+/* Aumenta o trecho selecionado (combina com .destaque se aninhado). */
+.slide-corpo .destaque-maior {
+  font-size: 1.35em;
+  font-weight: 700;
+  line-height: 1;
+}
+
 /* ===== PALETA ===== */
 .paleta-wrapper {
   display: flex;

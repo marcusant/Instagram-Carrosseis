@@ -193,3 +193,42 @@ export function sugestaoFoto(slide: Slide, posicao: number, total: number): stri
 
   return sugestaoPorPapel(posicao, total);
 }
+
+/** Enquadramento sugerido conforme o papel do slide no carrossel. */
+function enquadramentoPorPapel(posicao: number, total: number): string {
+  if (posicao === 0) {
+    return "enquadramento de impacto que prende o olhar (é a capa)";
+  }
+  if (posicao === total - 1) {
+    return "pessoa sorrindo e olhando para a câmera, clima de convite (é o CTA)";
+  }
+  return "enquadramento natural, foco no assunto principal da cena";
+}
+
+/**
+ * Monta um prompt pronto para colar no Gemini/ChatGPT e gerar a FOTO daquele
+ * slide. Usa a mesma ideia da `sugestaoFoto` como cena e a enriquece com
+ * direção fotográfica, formato e a regra de não escrever texto na imagem.
+ *
+ * @param formato proporção alvo do carrossel ("1:1" ou "4:5")
+ */
+export function promptFotoIA(
+  slide: Slide,
+  posicao: number,
+  total: number,
+  pilarNome: string,
+  formato: "1:1" | "4:5",
+): string {
+  const cena = sugestaoFoto(slide, posicao, total);
+  const proporcao =
+    formato === "4:5"
+      ? "vertical 4:5 (1080x1350)"
+      : "quadrada 1:1 (1080x1080)";
+  return [
+    `Fotografia realista e editorial, proporção ${proporcao}, para um carrossel de Instagram sobre ${pilarNome}.`,
+    `Cena: ${cena}`,
+    `Direção: ${enquadramentoPorPapel(posicao, total)}; luz natural suave; cores sóbrias e autênticas; fundo levemente desfocado.`,
+    `Importante: nenhum texto, letra ou logotipo na imagem; deixe área livre (espaço negativo) para sobrepor o título depois.`,
+    `Aparência de foto real (não ilustração, não 3D), alta qualidade.`,
+  ].join(" ");
+}

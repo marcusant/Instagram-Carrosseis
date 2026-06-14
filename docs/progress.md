@@ -28,6 +28,24 @@
 
 ## Histórico
 
+### 2026-06-14 — Prompt de IA na lista de fotos + mais fontes + destaque no corpo
+- **Lista de fotos (.txt) com prompt de IA por slide**: além da sugestão de
+  foto, cada slide agora traz um **prompt pronto pra colar no Gemini/ChatGPT**
+  (modo gerar imagem). Nova função `promptFotoIA` em `sugestoes.ts` (cena =
+  `sugestaoFoto` + direção fotográfica + formato 1:1/4:5 + regra de "sem texto
+  na imagem"). Cabeçalho do `.txt` explica como usar.
+- **Mais fontes** (11 → 22) em Título e Corpo: +Cormorant, Libre Baskerville,
+  Merriweather, Roboto Slab, Inter, Poppins, Raleway, Nunito, Work Sans, Anton,
+  Archivo Black. Carregadas no `layout.tsx` (Google Fonts).
+- **Destaque de palavra/letra no corpo**: painel "Destaque no corpo" com
+  **✨ Destacar** (cor de acento + negrito), **🔼 Maior** (aumenta o trecho) e
+  **limpar**. Seleciona-se o trecho no corpo e clica; envolve a seleção num
+  `<span>` (`onMouseDown preventDefault` preserva a seleção) e persiste salvando
+  o `corpoHtml` (mesma via das edições da Fase A) — sobrevive ao F5 e ao export.
+- Validado: `typecheck` ✅, `build` ✅ e navegador ✅ (22 fontes nos selects;
+  destacar "Se vo" → cor+negrito e "academia" → 1.35×, ambos persistem no
+  reload; `.txt` traz sugestão + prompt por slide; sem erros no console).
+
 ### 2026-06-14 — Badge de tamanho de fonte + download em HD (1080) + recomendação
 - **Badge "Npx" por slide** ao lado de A−/A+ (título) e a−/a+ (corpo): mostra o
   tamanho da fonte **no download (canvas 1080px)**, reativo aos ajustes. Permite

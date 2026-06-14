@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { banco } from "@/config/banco";
 import { HANDLE, paletas, paletasMeta, pilaresMeta } from "@/config/pilares";
-import { sugestaoFoto } from "@/config/sugestoes";
+import { sugestaoFoto, promptFotoIA } from "@/config/sugestoes";
 import { arquivoParaDataUrlOtimizado } from "@/lib/imagem";
 import {
   corpoHtmlParaLinhas,
@@ -107,16 +107,31 @@ interface Fontes {
 
 /** Fontes disponíveis: Google (carregadas no layout) + fontes do sistema. */
 const FONTES: { nome: string; valor: string }[] = [
+  // ---- Serifadas (elegantes / editoriais) ----
   { nome: "Playfair (serifada)", valor: '"Playfair Display", serif' },
   { nome: "Lora (serifada)", valor: '"Lora", serif' },
+  { nome: "Cormorant (serifada)", valor: '"Cormorant Garamond", serif' },
+  { nome: "Libre Baskerville (serifada)", valor: '"Libre Baskerville", serif' },
+  { nome: "Merriweather (serifada)", valor: '"Merriweather", serif' },
+  { nome: "Roboto Slab (slab)", valor: '"Roboto Slab", serif' },
   { nome: "Georgia (serifada)", valor: "Georgia, serif" },
   { nome: "Times", valor: '"Times New Roman", Times, serif' },
+  // ---- Sem serifa (limpas / modernas) ----
   { nome: "DM Sans", valor: '"DM Sans", sans-serif' },
+  { nome: "Inter", valor: '"Inter", sans-serif' },
+  { nome: "Poppins", valor: '"Poppins", sans-serif' },
   { nome: "Montserrat", valor: '"Montserrat", sans-serif' },
-  { nome: "Oswald (estreita)", valor: '"Oswald", sans-serif' },
-  { nome: "Bebas Neue (título)", valor: '"Bebas Neue", sans-serif' },
+  { nome: "Raleway", valor: '"Raleway", sans-serif' },
+  { nome: "Nunito (arredondada)", valor: '"Nunito", sans-serif' },
+  { nome: "Work Sans", valor: '"Work Sans", sans-serif' },
   { nome: "Arial", valor: "Arial, Helvetica, sans-serif" },
   { nome: "Verdana", valor: "Verdana, Geneva, sans-serif" },
+  // ---- Display / títulos fortes ----
+  { nome: "Oswald (estreita)", valor: '"Oswald", sans-serif' },
+  { nome: "Bebas Neue (título)", valor: '"Bebas Neue", sans-serif' },
+  { nome: "Anton (título forte)", valor: '"Anton", sans-serif' },
+  { nome: "Archivo Black (título)", valor: '"Archivo Black", sans-serif' },
+  // ---- Mono ----
   { nome: "Courier (mono)", valor: '"Courier New", monospace' },
 ];
 
@@ -424,6 +439,63 @@ export default function Page() {
     );
   }
 
+  // ===== Destaque de palavra/letra no CORPO do slide aberto =====
+  // Envolve a seleção atual num <span> de destaque (cor+negrito ou maior).
+  // Persiste salvando o innerHTML do corpo (mesma via das edições da Fase A).
+  function aplicarDestaqueCorpo(tipo: "destaque" | "maior") {
+    const corpoEl = document.querySelector<HTMLElement>(
+      `#slide-${slideAtual} .slide-corpo`,
+    );
+    if (!corpoEl) return;
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) {
+      setAviso("Selecione uma palavra (ou letra) no corpo do slide primeiro.");
+      return;
+    }
+    const range = sel.getRangeAt(0);
+    if (!corpoEl.contains(range.commonAncestorContainer)) {
+      setAviso("A seleção precisa estar dentro do corpo do slide.");
+      return;
+    }
+    try {
+      const span = document.createElement("span");
+      span.className = tipo === "maior" ? "destaque-maior" : "destaque";
+      span.appendChild(range.extractContents());
+      range.insertNode(span);
+    } catch {
+      setAviso("Não consegui aplicar — selecione dentro de uma linha só.");
+      return;
+    }
+    corpoEl.normalize();
+    salvarEdicao(chaveAtual, "corpoHtml", corpoEl.innerHTML);
+    sel.removeAllRanges();
+    setAviso(tipo === "maior" ? "Trecho aumentado." : "Trecho destacado.");
+  }
+
+  // Remove todos os destaques do corpo do slide aberto (desembrulha os spans).
+  function limparDestaqueCorpo() {
+    const corpoEl = document.querySelector<HTMLElement>(
+      `#slide-${slideAtual} .slide-corpo`,
+    );
+    if (!corpoEl) return;
+    const spans = corpoEl.querySelectorAll<HTMLElement>(
+      "span.destaque, span.destaque-maior",
+    );
+    if (!spans.length) {
+      setAviso("Não há destaques no corpo deste slide.");
+      return;
+    }
+    spans.forEach((sp) => {
+      const pai = sp.parentNode;
+      if (!pai) return;
+      while (sp.firstChild) pai.insertBefore(sp.firstChild, sp);
+      pai.removeChild(sp);
+    });
+    corpoEl.normalize();
+    salvarEdicao(chaveAtual, "corpoHtml", corpoEl.innerHTML);
+    setAviso("Destaques do corpo removidos.");
+  }
+
   // ===== Paletas =====
   function aplicarPaleta(id: PaletaId) {
     setCores(paletas[id]);
@@ -723,21 +795,35 @@ export default function Page() {
     }
   }
 
-  // Roteiro de fotos: junta a sugestão de cada slide num .txt (sessão de fotos).
+  // Roteiro de fotos: junta a sugestão + um prompt de IA por slide num .txt.
   function baixarListaFotos() {
-    const linhas = atual.slides.map((s, i) => {
+    const nomePilar = banco[pilar].nome;
+    const blocos = atual.slides.map((s, i) => {
       const efetivo = slideEfetivo(s, i);
       const ideia = sugestaoFoto(efetivo, i, total);
-      return `Slide ${String(i + 1).padStart(2, "0")} [${efetivo.tag}] — ${ideia}`;
+      const prompt = promptFotoIA(efetivo, i, total, nomePilar, proporcao);
+      return [
+        `Slide ${String(i + 1).padStart(2, "0")} [${efetivo.tag}]`,
+        `Sugestão de foto: ${ideia}`,
+        `Prompt p/ criar a foto com IA (cole no Gemini ou ChatGPT):`,
+        prompt,
+      ].join("\n");
     });
-    const texto = `Lista de fotos · ${banco[pilar].nome} · ${total} slides\n\n${linhas.join("\n\n")}\n`;
+    const cabecalho = [
+      `Lista de fotos · ${nomePilar} · ${total} slides`,
+      `Formato: ${proporcao === "4:5" ? "vertical 4:5" : "quadrado 1:1"}`,
+      "",
+      `Dica: cole cada \"Prompt p/ criar a foto com IA\" no Gemini ou no ChatGPT`,
+      `(modo de gerar imagem), baixe a imagem e use no slide correspondente.`,
+    ].join("\n");
+    const texto = `${cabecalho}\n\n${blocos.join("\n\n———\n\n")}\n`;
     const url = URL.createObjectURL(new Blob([texto], { type: "text/plain" }));
     const link = document.createElement("a");
     link.download = `fotos-${pilar}-${total}slides.txt`;
     link.href = url;
     link.click();
     URL.revokeObjectURL(url);
-    setAviso("Lista de fotos baixada (.txt).");
+    setAviso("Lista de fotos + prompts baixada (.txt).");
   }
 
   // ===== Rótulo de origem =====
@@ -931,6 +1017,40 @@ export default function Page() {
           corpo <b>{FAIXA_IDEAL.corpo}</b>. O padrão aqui ({FONTE_BASE_1080.titulo}
           px / {FONTE_BASE_1080.corpo}px) já cai na faixa — use A−/A+ pra afinar
           por slide.
+        </p>
+      </div>
+
+      {/* DESTAQUE NO CORPO */}
+      <div className="destaque-wrapper">
+        <span className="aj-label">Destaque no corpo</span>
+        <div className="destaque-acoes">
+          <button
+            className="aj-btn destaque-btn"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => aplicarDestaqueCorpo("destaque")}
+            title="Selecione uma palavra/letra no corpo e clique: cor de destaque + negrito"
+          >
+            ✨ Destacar
+          </button>
+          <button
+            className="aj-btn destaque-btn"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => aplicarDestaqueCorpo("maior")}
+            title="Selecione uma palavra/letra e aumente o tamanho dela"
+          >
+            🔼 Maior
+          </button>
+          <button
+            className="aj-reset"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={limparDestaqueCorpo}
+          >
+            limpar
+          </button>
+        </div>
+        <p className="aj-dica">
+          Selecione uma palavra ou letra no corpo do slide e clique — ex.:
+          destacar <b>corpo</b> em &ldquo;o corpo perfeito&rdquo;.
         </p>
       </div>
 
